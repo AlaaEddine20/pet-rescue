@@ -6,8 +6,8 @@ import {
   LOGO_SOURCES,
 } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import React, { useEffect, useMemo } from "react";
-import { Image, StyleSheet } from "react-native";
+import { useEffect, useMemo } from "react";
+import { Image } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -45,44 +45,27 @@ const NoAuthPage = () => {
   const formAnimatedStyle = useAnimatedStyle(() => ({
     opacity: formOpacity.value,
   }));
+
   return (
-    <ThemedView style={styles.container} type="background">
-      <Animated.View style={[styles.logo, logoAnimatedStyle]}>
+    <ThemedView
+      className="flex-1 items-center justify-start px-4 pt-10"
+      type="background"
+    >
+      <Animated.View className="self-center" style={logoAnimatedStyle}>
         <Image
           source={LOGO_SOURCES[currentTheme]}
-          style={styles.logoImage}
+          className="h-full w-full"
           resizeMode="contain"
         />
       </Animated.View>
-      <Animated.View style={[styles.formWrapper, formAnimatedStyle]}>
+      <Animated.View
+        className="mt-[30px] w-full justify-center"
+        style={formAnimatedStyle}
+      >
         <ThemedForm />
       </Animated.View>
     </ThemedView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-start",
-    paddingTop: 40,
-    paddingHorizontal: 16,
-  },
-  logo: {
-    alignSelf: "center",
-  },
-  logoImage: {
-    width: "100%",
-    height: "100%",
-  },
-  formWrapper: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    marginTop: 30,
-    textAlign: "center",
-  },
-});
 
 export default NoAuthPage;

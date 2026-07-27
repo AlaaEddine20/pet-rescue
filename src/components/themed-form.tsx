@@ -1,33 +1,10 @@
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { Colors } from "@/constants/theme";
-import { StyleSheet } from "react-native";
 
 export function ThemedForm() {
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText style={styles.text}>ThemedForm</ThemedText>
+    <ThemedView className="m-auto w-full rounded-lg border-2 border-background-element p-4 shadow-[0px_2px_4px_rgba(238,243,249,0.25)]">
+      <ThemedText className="text-center">ThemedForm</ThemedText>
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    padding: 16,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: Colors.light.backgroundElement,
-    margin: "auto",
-    shadowColor: Colors.light.backgroundElement,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-  },
-  text: {
-    textAlign: "center",
-  },
-});

@@ -1,28 +1,29 @@
 import { ThemeColor } from "@/constants/theme";
-import { useTheme } from "@/hooks/use-theme";
 import {
   SafeAreaView,
   SafeAreaViewProps,
 } from "react-native-safe-area-context";
 
+const backgroundClasses: Record<ThemeColor, string> = {
+  text: "bg-text",
+  textSecondary: "bg-text-secondary",
+  background: "bg-background",
+  backgroundElement: "bg-background-element",
+  backgroundSelected: "bg-background-selected",
+};
+
 export type ThemedViewProps = SafeAreaViewProps & {
-  lightColor?: string;
-  darkColor?: string;
   type?: ThemeColor;
 };
 
 export function ThemedView({
-  style,
-  lightColor,
-  darkColor,
-  type,
+  className,
+  type = "background",
   ...otherProps
 }: ThemedViewProps) {
-  const theme = useTheme();
-
   return (
     <SafeAreaView
-      style={[{ backgroundColor: theme[type ?? "background"] }, style]}
+      className={`${backgroundClasses[type]} ${className ?? ""}`}
       {...otherProps}
     />
   );

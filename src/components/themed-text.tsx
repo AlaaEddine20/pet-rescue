@@ -1,78 +1,39 @@
-import { Platform, StyleSheet, Text, type TextProps } from "react-native";
+import { Text, type TextProps } from "react-native";
 
-import { Fonts, ThemeColor } from "@/constants/theme";
-import { useTheme } from "@/hooks/use-theme";
-import { useCallback } from "react";
+import { ThemeColor } from "@/constants/theme";
 
 export type ThemedTextProps = TextProps & {
-  type?: "default" | "title" | "small" | "smallBold" | "subtitle" | "code";
+  type?: keyof typeof typeClasses;
   themeColor?: ThemeColor;
 };
 
+const typeClasses = {
+  default: "text-body",
+  title: "text-title",
+  small: "text-small",
+  smallBold: "text-small-bold",
+  subtitle: "text-subtitle",
+  code: "text-code font-mono android:font-bold",
+};
+
+const colorClasses: Record<ThemeColor, string> = {
+  text: "text-text",
+  textSecondary: "text-text-secondary",
+  background: "text-background",
+  backgroundElement: "text-background-element",
+  backgroundSelected: "text-background-selected",
+};
+
 export function ThemedText({
-  style,
+  className,
   type = "default",
-  themeColor,
+  themeColor = "text",
   ...rest
 }: ThemedTextProps) {
-  const theme = useTheme();
-
-  const fontType = useCallback(() => {
-    switch (type) {
-      case "default":
-        return styles.default;
-      case "title":
-        return styles.title;
-      case "small":
-        return styles.small;
-      case "smallBold":
-        return styles.smallBold;
-      case "subtitle":
-        return styles.subtitle;
-      case "code":
-        return styles.code;
-      default:
-        return styles.default;
-    }
-  }, [type]);
-
   return (
     <Text
-      style={[{ color: theme[themeColor ?? "text"] }, fontType(), style]}
+      className={`${colorClasses[themeColor]} ${typeClasses[type]} ${className ?? ""}`}
       {...rest}
     />
   );
 }
-
-const styles = StyleSheet.create({
-  small: {
-    fontSize: 14,
-    lineHeight: 20,
-    fontWeight: 500,
-  },
-  smallBold: {
-    fontSize: 14,
-    lineHeight: 20,
-    fontWeight: 700,
-  },
-  default: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: 500,
-  },
-  title: {
-    fontSize: 48,
-    fontWeight: 600,
-    lineHeight: 52,
-  },
-  subtitle: {
-    fontSize: 32,
-    lineHeight: 44,
-    fontWeight: 600,
-  },
-  code: {
-    fontFamily: Fonts.mono,
-    fontWeight: Platform.select({ android: 700 }) ?? 500,
-    fontSize: 12,
-  },
-});
