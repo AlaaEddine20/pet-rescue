@@ -5,11 +5,14 @@
 
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useMemo } from "react";
 
 export function useTheme() {
   const scheme = useColorScheme();
 
-  const theme = scheme === "unspecified" ? "light" : scheme;
+  const theme = useMemo(() => {
+    return scheme === "dark" ? "dark" : "light";
+  }, [scheme]);
 
-  return Colors[theme];
+  return Colors["light"];
 }
