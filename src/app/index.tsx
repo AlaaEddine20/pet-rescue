@@ -1,5 +1,10 @@
 import { ThemedForm } from "@/components/themed-form";
 import { ThemedView } from "@/components/themed-view";
+import {
+  FORM_FADE_DURATION,
+  LOGO_ANIMATION_DURATION,
+  LOGO_SOURCES,
+} from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useEffect, useMemo } from "react";
 import { Image, StyleSheet } from "react-native";
@@ -10,14 +15,7 @@ import Animated, {
   withDelay,
   withTiming,
 } from "react-native-reanimated";
-
-const LOGO_ANIMATION_DURATION = 1000;
-const FORM_FADE_DURATION = 400;
-
-const LOGO_SOURCES = {
-  light: require("../../assets/images/logo-light-theme.png"),
-  dark: require("../../assets/images/logo-dark-theme.png"),
-} as const;
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function Index() {
   const colorScheme = useColorScheme();
@@ -50,18 +48,20 @@ export default function Index() {
   }));
 
   return (
-    <ThemedView style={styles.container} type="background">
-      <Animated.View style={[styles.logo, logoAnimatedStyle]}>
-        <Image
-          source={LOGO_SOURCES[currentTheme]}
-          style={styles.logoImage}
-          resizeMode="contain"
-        />
-      </Animated.View>
-      <Animated.View style={[styles.formWrapper, formAnimatedStyle]}>
-        <ThemedForm />
-      </Animated.View>
-    </ThemedView>
+    <SafeAreaProvider>
+      <ThemedView style={styles.container} type="background">
+        <Animated.View style={[styles.logo, logoAnimatedStyle]}>
+          <Image
+            source={LOGO_SOURCES[currentTheme]}
+            style={styles.logoImage}
+            resizeMode="contain"
+          />
+        </Animated.View>
+        <Animated.View style={[styles.formWrapper, formAnimatedStyle]}>
+          <ThemedForm />
+        </Animated.View>
+      </ThemedView>
+    </SafeAreaProvider>
   );
 }
 
