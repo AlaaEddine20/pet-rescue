@@ -1,23 +1,34 @@
-import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Spacing } from "@/constants/theme";
-import { StyleSheet } from "react-native";
+import { useState } from "react";
+import { StyleSheet, TextInput } from "react-native";
 
-export function ThemedForm() {
+const ThemedForm = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+
+  const handlefields = () => {};
+
   return (
-    <ThemedView>
-      <ThemedText>ThemedForm</ThemedText>
+    <ThemedView style={styles.formContainer}>
+      <TextInput value={email} />
+      <TextInput value={password} />
+      <TextInput value={username} />
     </ThemedView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   formContainer: {
     margin: "auto",
     width: "100%",
-    borderRadius: 8,
-    borderWidth: 4,
+    /* borderRadius: 8,
+    borderWidth: 1, */
     padding: Spacing.s,
-    shadowColor: "0px 2px 4px rgba(238,243,249,0.25)",
+    boxShadow: "0px 2px 4px",
+    shadowColor: "rgba(238,243,249,0.25)",
   },
 });
+
+export default ThemedForm;

@@ -1,4 +1,5 @@
-import { ThemedForm } from "@/components/themed-form";
+import ThemedForm from "@/components/themed-form";
+import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import {
   FORM_FADE_DURATION,
@@ -6,8 +7,7 @@ import {
   LOGO_SOURCES,
   Spacing,
 } from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Image, StyleSheet } from "react-native";
 import Animated, {
   Easing,
@@ -18,12 +18,6 @@ import Animated, {
 } from "react-native-reanimated";
 
 const NoAuthPage = () => {
-  const colorScheme = useColorScheme();
-
-  const currentTheme = useMemo(() => {
-    return colorScheme === "dark" ? "dark" : "light";
-  }, [colorScheme]);
-
   const logoSize = useSharedValue(100);
   const formOpacity = useSharedValue(0);
 
@@ -51,11 +45,19 @@ const NoAuthPage = () => {
     <ThemedView style={styles.container}>
       <Animated.View style={[logoAnimatedStyle, styles.logoContainer]}>
         <Image
-          source={LOGO_SOURCES[currentTheme]}
+          source={LOGO_SOURCES["light"]}
           resizeMode="contain"
-          style={{ width: "100%", aspectRatio: 1.5, position: "relative" }}
+          style={{
+            width: "100%",
+            aspectRatio: 1.5,
+            position: "relative",
+            height: "100%",
+          }}
         />
       </Animated.View>
+      <ThemedText variant="title">
+        Find and rescue abandoned pets near you
+      </ThemedText>
       <Animated.View style={[formAnimatedStyle, styles.formContainer]}>
         <ThemedForm />
       </Animated.View>

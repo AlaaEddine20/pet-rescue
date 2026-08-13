@@ -20,7 +20,18 @@
     },
     "plugins": [
       "expo-router",
-      "expo-splash-screen"
+      "expo-splash-screen",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/NunitoSans-Regular.ttf",
+            "./assets/fonts/NunitoSans-Medium.ttf",
+            "./assets/fonts/NunitoSans-SemiBold.ttf",
+            "./assets/fonts/NunitoSans-Bold.ttf"
+          ]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
