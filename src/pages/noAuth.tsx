@@ -1,4 +1,4 @@
-import ThemedForm from "@/components/themed-form";
+import ThemedInput from "@/components/themed-input";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import {
@@ -41,6 +41,10 @@ const NoAuthPage = () => {
     opacity: formOpacity.value,
   }));
 
+  const handleLoginOrSignup = () => {
+    // Handle login or signup logic here
+  };
+
   return (
     <ThemedView style={styles.container}>
       <Animated.View style={[logoAnimatedStyle, styles.logoContainer]}>
@@ -55,11 +59,12 @@ const NoAuthPage = () => {
           }}
         />
       </Animated.View>
-      <ThemedText variant="title">
+      <ThemedText variant="caption">
         Find and rescue abandoned pets near you
       </ThemedText>
       <Animated.View style={[formAnimatedStyle, styles.formContainer]}>
-        <ThemedForm />
+        <ThemedInput onChange={() => {}} placeholder="Email" />
+        <ThemedInput onChange={() => {}} placeholder="Password" />
       </Animated.View>
     </ThemedView>
   );

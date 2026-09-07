@@ -17,11 +17,11 @@ const textVariants: Record<TextVariant, TextStyle> = {
   body: {
     fontFamily: Typography.fontFamily.medium,
     fontSize: Typography.fontSize.md,
-    lineHeight: Typography.fontSize.md,
+    lineHeight: Typography.lineHeight.md,
   },
   caption: {
     fontFamily: Typography.fontFamily.medium,
-    fontSize: Typography.fontSize.sm,
+    fontSize: Typography.fontSize.md,
     lineHeight: Typography.lineHeight.sm,
   },
 };
