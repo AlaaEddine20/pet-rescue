@@ -1,4 +1,6 @@
-import ThemedInput from "@/components/themed-input";
+import { RegisterForm } from "@/components/register";
+import { SignInForm } from "@/components/signIn";
+import { SegmentedToggle } from "@/components/themed-auth-toggler";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import {
@@ -7,7 +9,7 @@ import {
   LOGO_SOURCES,
   Spacing,
 } from "@/constants/theme";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Image, StyleSheet } from "react-native";
 import Animated, {
   Easing,
@@ -18,6 +20,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 const NoAuthPage = () => {
+  const [mode, setMode] = useState<"signin" | "register">("signin");
   const logoSize = useSharedValue(100);
   const formOpacity = useSharedValue(0);
 
@@ -41,8 +44,8 @@ const NoAuthPage = () => {
     opacity: formOpacity.value,
   }));
 
-  const handleLoginOrSignup = () => {
-    // Handle login or signup logic here
+  const handleLoginOrRegister = (value: string) => {
+    setMode(value === "signin" ? "signin" : "register");
   };
 
   return (
@@ -63,8 +66,17 @@ const NoAuthPage = () => {
         Find and rescue abandoned pets near you
       </ThemedText>
       <Animated.View style={[formAnimatedStyle, styles.formContainer]}>
-        <ThemedInput onChange={() => {}} placeholder="Email" />
-        <ThemedInput onChange={() => {}} placeholder="Password" />
+        <SegmentedToggle
+          value={mode}
+          onChange={(v) => handleLoginOrRegister(v)}
+          options={[
+            { label: "Sign in", value: "signin" },
+            { label: "Register", value: "register" },
+          ]}
+        />
+      </Animated.View>
+      <Animated.View style={[formAnimatedStyle, styles.formContainer]}>
+        {mode === "signin" ? <SignInForm /> : <RegisterForm />}
       </Animated.View>
     </ThemedView>
   );
@@ -77,6 +89,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingHorizontal: Spacing.s,
     paddingVertical: Spacing.m,
+    overflow: "scroll",
   },
   image: {
     width: "100%",
@@ -87,7 +100,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   formContainer: {
-    marginTop: 30,
+    marginTop: 20,
     width: "100%",
     justifyContent: "center",
   },
