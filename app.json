@@ -8,15 +8,15 @@
     "scheme": "petrescue",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/images/icon.png"
+      "icon": "./assets/expo.icon"
     },
     "android": {
-      "icon": "./assets/images/icon.png",
       "predictiveBackGestureEnabled": false,
       "package": "com.anonymous.petrescue"
     },
     "web": {
-      "output": "static"
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
       "expo-router",
