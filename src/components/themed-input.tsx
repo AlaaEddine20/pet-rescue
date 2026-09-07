@@ -1,5 +1,5 @@
 import { Spacing, themes } from "@/constants/theme";
-import { StyleSheet, TextInput, TextInputProps, View } from "react-native";
+import { StyleSheet, TextInput, TextInputProps } from "react-native";
 
 interface ThemedInputProps extends TextInputProps {
   onChangeText: (text: string) => void;
@@ -12,21 +12,19 @@ const ThemedInput = ({
   ...rest
 }: ThemedInputProps) => {
   return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        id={"themed-input"}
-        style={styles.input}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        autoCapitalize="none"
-        {...rest}
-      />
-    </View>
+    <TextInput
+      id={"themed-input"}
+      style={styles.input}
+      onChangeText={onChangeText}
+      placeholder={placeholder}
+      autoCapitalize="none"
+      {...rest}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  inputContainer: {
+  input: {
     backgroundColor: themes.light.backgroundElement,
     shadowColor: "#000",
     shadowOpacity: 0.1,
@@ -37,11 +35,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: Spacing.s,
     marginVertical: Spacing.xs,
-  },
-  input: {
     fontSize: 12,
     color: themes.light.textSecondary,
-    padding: 8,
     margin: 0,
     width: "100%",
   },
