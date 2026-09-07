@@ -1,6 +1,5 @@
-import { ThemedView } from "@/components/themed-view";
 import { Spacing, themes } from "@/constants/theme";
-import { StyleSheet, TextInput, TextInputProps } from "react-native";
+import { StyleSheet, TextInput, TextInputProps, View } from "react-native";
 
 interface ThemedInputProps extends TextInputProps {
   onChangeText: (text: string) => void;
@@ -13,7 +12,7 @@ const ThemedInput = ({
   ...rest
 }: ThemedInputProps) => {
   return (
-    <ThemedView style={styles.inputContainer}>
+    <View style={styles.inputContainer}>
       <TextInput
         id={"themed-input"}
         style={styles.input}
@@ -22,7 +21,7 @@ const ThemedInput = ({
         autoCapitalize="none"
         {...rest}
       />
-    </ThemedView>
+    </View>
   );
 };
 

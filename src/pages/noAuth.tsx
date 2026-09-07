@@ -2,7 +2,6 @@ import { RegisterForm } from "@/components/register";
 import { SignInForm } from "@/components/signIn";
 import { SegmentedToggle } from "@/components/themed-auth-toggler";
 import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
 import {
   FORM_FADE_DURATION,
   LOGO_ANIMATION_DURATION,
@@ -10,7 +9,7 @@ import {
   Spacing,
 } from "@/constants/theme";
 import { useEffect, useState } from "react";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -49,7 +48,7 @@ const NoAuthPage = () => {
   };
 
   return (
-    <ThemedView style={styles.container}>
+    <View style={styles.container}>
       <Animated.View style={[logoAnimatedStyle, styles.logoContainer]}>
         <Image
           source={LOGO_SOURCES["light"]}
@@ -78,7 +77,7 @@ const NoAuthPage = () => {
       <Animated.View style={[formAnimatedStyle, styles.formContainer]}>
         {mode === "signin" ? <SignInForm /> : <RegisterForm />}
       </Animated.View>
-    </ThemedView>
+    </View>
   );
 };
 
