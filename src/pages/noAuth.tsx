@@ -7,6 +7,7 @@ import {
   LOGO_ANIMATION_DURATION,
   LOGO_SOURCES,
   Spacing,
+  SUBMIT_BUTTON_SLIDE_DURATION,
 } from "@/constants/theme";
 import { useEffect, useState } from "react";
 import { Image, StyleSheet, View } from "react-native";
@@ -22,9 +23,11 @@ const NoAuthPage = () => {
   const [mode, setMode] = useState<"signin" | "register">("signin");
   const logoSize = useSharedValue(100);
   const formOpacity = useSharedValue(0);
+  const captionOpacity = useSharedValue(0);
+  const submitButtonSlide = useSharedValue(0);
 
   useEffect(() => {
-    logoSize.value = withTiming(30, {
+    logoSize.value = withTiming(40, {
       duration: LOGO_ANIMATION_DURATION,
       easing: Easing.out(Easing.cubic),
     });
@@ -32,11 +35,22 @@ const NoAuthPage = () => {
       LOGO_ANIMATION_DURATION,
       withTiming(1, { duration: FORM_FADE_DURATION }),
     );
-  }, [logoSize, formOpacity]);
+    captionOpacity.value = withDelay(
+      LOGO_ANIMATION_DURATION,
+      withTiming(1, { duration: FORM_FADE_DURATION }),
+    );
+    submitButtonSlide.value = withDelay(
+      SUBMIT_BUTTON_SLIDE_DURATION,
+      withTiming(1, { duration: SUBMIT_BUTTON_SLIDE_DURATION }),
+    );
+  }, [logoSize, formOpacity, captionOpacity, submitButtonSlide]);
 
   const logoAnimatedStyle = useAnimatedStyle(() => ({
     width: `${logoSize.value}%`,
-    height: `${logoSize.value}%`,
+  }));
+
+  const captionAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: captionOpacity.value,
   }));
 
   const formAnimatedStyle = useAnimatedStyle(() => ({
@@ -57,11 +71,11 @@ const NoAuthPage = () => {
             width: "100%",
             aspectRatio: 1.5,
             position: "relative",
-            height: "100%",
+            height: 300,
           }}
         />
       </Animated.View>
-      <Animated.View>
+      <Animated.View style={captionAnimatedStyle}>
         <ThemedText variant="caption">
           Find and rescue abandoned pets near you
         </ThemedText>
@@ -77,7 +91,11 @@ const NoAuthPage = () => {
         />
       </Animated.View>
       <Animated.View style={[formAnimatedStyle, styles.formContainer]}>
-        {mode === "signin" ? <SignInForm /> : <RegisterForm />}
+        {mode === "signin" ? (
+          <SignInForm submitButtonSlide={submitButtonSlide} />
+        ) : (
+          <RegisterForm submitButtonSlide={submitButtonSlide} />
+        )}
       </Animated.View>
     </View>
   );
@@ -99,7 +117,6 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignSelf: "center",
-    width: "40%",
   },
   formContainer: {
     marginTop: 20,

@@ -42,8 +42,9 @@ export const LOGO_SOURCES = {
   dark: require("../../assets/images/logo-dark-theme.png"),
 } as const;
 
-export const LOGO_ANIMATION_DURATION = 1000;
+export const LOGO_ANIMATION_DURATION = 500;
 export const FORM_FADE_DURATION = 400;
+export const SUBMIT_BUTTON_SLIDE_DURATION = 600;
 
 export const themes = {
   light: {

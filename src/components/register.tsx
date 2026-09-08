@@ -1,9 +1,21 @@
+import SubmitButton from "@/components/submit-button";
 import ThemedInput from "@/components/themed-input";
 import { Spacing, Typography, themes } from "@/constants/theme";
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
+import type { SharedValue } from "react-native-reanimated";
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 
-export function RegisterForm() {
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+
+interface RegisterFormProps {
+  submitButtonSlide: SharedValue<number>;
+}
+
+export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -17,6 +29,19 @@ export function RegisterForm() {
   const handleSubmit = () => {
     console.log("Form submitted:", form);
   };
+
+  const submitButtonAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: submitButtonSlide.value,
+    transform: [
+      {
+        translateY: interpolate(
+          submitButtonSlide.value,
+          [0, 1],
+          [SCREEN_HEIGHT, 0],
+        ),
+      },
+    ],
+  }));
 
   return (
     <View style={styles.container}>
@@ -46,9 +71,11 @@ export function RegisterForm() {
         secureTextEntry={true}
         value={form.confirmPassword}
       />
-      <Pressable style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>Register</Text>
-      </Pressable>
+      <Animated.View style={submitButtonAnimatedStyle}>
+        <SubmitButton style={styles.button} onSubmit={handleSubmit}>
+          <Text style={styles.buttonText}>Register</Text>
+        </SubmitButton>
+      </Animated.View>
     </View>
   );
 }
@@ -60,9 +87,6 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: themes.light.textSecondary,
-    borderRadius: 8,
-    paddingVertical: Spacing.m,
-    alignItems: "center",
     marginTop: 10,
   },
   buttonText: {
