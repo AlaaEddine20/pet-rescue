@@ -18,11 +18,13 @@ export function SignInForm() {
   return (
     <View style={styles.container}>
       <ThemedInput
+        id="email-input"
         onChangeText={(value) => handleInputsChange("email", value)}
         placeholder="Email"
         value={form.email}
       />
       <ThemedInput
+        id="password-input"
         onChangeText={(value) => handleInputsChange("password", value)}
         placeholder="Password"
         secureTextEntry={true}

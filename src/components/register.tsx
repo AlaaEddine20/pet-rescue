@@ -21,22 +21,26 @@ export function RegisterForm() {
   return (
     <View style={styles.container}>
       <ThemedInput
+        id="name-input"
         onChangeText={(value) => handleInputsChange("name", value)}
         placeholder="Name"
         value={form.name}
       />
       <ThemedInput
+        id="email-input"
         onChangeText={(value) => handleInputsChange("email", value)}
         placeholder="Email"
         value={form.email}
       />
       <ThemedInput
+        id="password-input"
         onChangeText={(value) => handleInputsChange("password", value)}
         placeholder="Password"
         secureTextEntry={true}
         value={form.password}
       />
       <ThemedInput
+        id="confirm-password-input"
         onChangeText={(value) => handleInputsChange("confirmPassword", value)}
         placeholder="Confirm Password"
         secureTextEntry={true}

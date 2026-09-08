@@ -4,16 +4,18 @@ import { StyleSheet, TextInput, TextInputProps } from "react-native";
 interface ThemedInputProps extends TextInputProps {
   onChangeText: (text: string) => void;
   placeholder?: string;
+  id?: string;
 }
 
 const ThemedInput = ({
   onChangeText,
   placeholder,
+  id,
   ...rest
 }: ThemedInputProps) => {
   return (
     <TextInput
-      id={"themed-input"}
+      id={id}
       style={styles.input}
       onChangeText={onChangeText}
       placeholder={placeholder}
