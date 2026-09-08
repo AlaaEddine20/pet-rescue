@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     borderWidth: 0,
     borderRadius: 8,
-    padding: Spacing.s,
+    padding: Spacing.m,
     marginVertical: Spacing.xs,
     fontSize: Typography.fontSize.xs,
     color: themes.light.textSecondary,

@@ -61,9 +61,11 @@ const NoAuthPage = () => {
           }}
         />
       </Animated.View>
-      <ThemedText variant="caption">
-        Find and rescue abandoned pets near you
-      </ThemedText>
+      <Animated.View>
+        <ThemedText variant="caption">
+          Find and rescue abandoned pets near you
+        </ThemedText>
+      </Animated.View>
       <Animated.View style={[formAnimatedStyle, styles.formContainer]}>
         <SegmentedToggle
           value={mode}
@@ -103,6 +105,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: "100%",
     justifyContent: "center",
+  },
+  text: {
+    textAlign: "center",
+    marginBottom: 20,
   },
 });
 
