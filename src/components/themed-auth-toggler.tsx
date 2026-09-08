@@ -1,15 +1,14 @@
-import { themes } from "@/constants/theme";
+import { themes, Typography } from "@/constants/theme";
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-// ---- Theme -----------------------------------------------------------
 export type SegmentedToggleOption = {
   label: string;
   value: string;
 };
 
 type SegmentedToggleProps = {
-  options: [SegmentedToggleOption, SegmentedToggleOption]; // exactly two, like the screenshot
+  options: [SegmentedToggleOption, SegmentedToggleOption];
   value: string;
   onChange: (value: string) => void;
 };
@@ -33,17 +32,7 @@ export function SegmentedToggle({
           <Pressable
             key={option.value}
             onPress={() => onChange(option.value)}
-            style={[
-              styles.segment,
-              isSelected && {
-                backgroundColor: themes.light.background,
-                shadowColor: "#000",
-                shadowOpacity: 0.06,
-                shadowRadius: 4,
-                shadowOffset: { width: 0, height: 1 },
-                elevation: 2,
-              },
-            ]}
+            style={[styles.segment, isSelected && styles.selectedSegment]}
           >
             <Text
               style={[
@@ -52,7 +41,9 @@ export function SegmentedToggle({
                   color: isSelected
                     ? themes.light.text
                     : themes.light.textSecondary,
-                  fontWeight: isSelected ? "700" : "500",
+                  fontFamily: isSelected
+                    ? Typography.fontFamily.bold
+                    : Typography.fontFamily.medium,
                 },
               ]}
             >
@@ -84,17 +75,12 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 15,
   },
+  selectedSegment: {
+    backgroundColor: themes.light.background,
+    shadowColor: "#000",
+    shadowOpacity: 0.06,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 1 },
+    elevation: 2,
+  },
 });
-
-// ---- Example usage -----------------------------------------------------
-//
-// const [mode, setMode] = useState("signin");
-//
-// <SegmentedToggle
-//   value={mode}
-//   onChange={setMode}
-//   options={[
-//     { label: "Sign in", value: "signin" },
-//     { label: "Register", value: "register" },
-//   ]}
-// />
