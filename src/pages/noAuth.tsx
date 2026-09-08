@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignSelf: "center",
+    width: "40%",
   },
   formContainer: {
     marginTop: 20,
