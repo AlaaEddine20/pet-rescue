@@ -1,6 +1,3 @@
-/**
- * Theme colors and typography live in `src/global.css` as Tailwind theme tokens.
- */
 import { createContext } from "react";
 
 export type Theme = "light" | "dark";
@@ -50,18 +47,20 @@ export const FORM_FADE_DURATION = 400;
 
 export const themes = {
   light: {
-    text: "#0F2033", // deep navy-black, softer than pure black, on-brand
+    text: "#0F2033",
     background: "#ffffff",
-    backgroundElement: "#EEF3F9", // subtle blue tint (was neutral grey)
-    backgroundSelected: "#DCE7F4", // light brand-blue tint
-    textSecondary: "#2E86DE", // logo pin blue
+    backgroundElement: "#EEF3F9",
+    backgroundSelected: "#DCE7F4",
+    textSecondary: "#2E86DE",
+    error: "#FF4D4F",
   },
   dark: {
     text: "#ffffff",
-    background: "#123b5e", // kept — matches deep navy in the system
-    backgroundElement: "#17324F", // navy-tinted surface (was neutral #212225)
-    backgroundSelected: "#1E4162", // lighter navy for selection
-    textSecondary: "#5AA9F0", // brighter blue for contrast on navy
+    background: "#123b5e",
+    backgroundElement: "#17324F",
+    backgroundSelected: "#1E4162",
+    textSecondary: "#5AA9F0",
+    error: "#FF4D4F",
   },
 };
 
