@@ -1,21 +1,21 @@
 import { z } from "zod";
 
 export const newUserSchema = z.object({
-  name: z.string().min(1, { error: "Invalid name" }),
-  email: z.email({ error: "Invalid email address" }),
+  name: z.string().min(2, { message: "Invalid name" }),
+  email: z.email({ message: "Invalid email address" }),
   password: z
     .string()
-    .min(8, { error: "Password must be at least 8 characters long" }),
+    .min(8, { message: "Password must be at least 8 characters long" }),
   confirmPassword: z
     .string()
-    .min(8, { error: "Confirm Password is not correct" }),
+    .min(8, { message: "Password confirmation is not correct" }),
 });
 
 export const registeredUserSchema = z.object({
-  email: z.email({ error: "Invalid email address" }),
+  email: z.email({ message: "Invalid email address" }),
   password: z
     .string()
-    .min(8, { error: "Password must be at least 8 characters long" }),
+    .min(8, { message: "Password must be at least 8 characters long" }),
 });
 
 export type NewUser = z.infer<typeof newUserSchema>;

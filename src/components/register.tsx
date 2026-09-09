@@ -24,11 +24,13 @@ export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(newUserSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
-
-  const onSubmit = (formData: NewUser) => {
-    console.log("Form submitted:", formData);
-  };
 
   const submitButtonAnimatedStyle = useAnimatedStyle(() => ({
     opacity: submitButtonSlide.value,
@@ -43,6 +45,10 @@ export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
     ],
   }));
 
+  const onSubmit = (formData: NewUser) => {
+    console.log("Form submitted:", formData);
+  };
+
   return (
     <View style={styles.container}>
       <Controller
@@ -55,10 +61,10 @@ export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
             placeholder="Name"
             value={value}
             onBlur={onBlur}
+            error={errors.name && errors.name.message}
           />
         )}
       />
-      {errors.name && <Text style={styles.error}>{errors.name.message}</Text>}
       <Controller
         control={control}
         name="email"
@@ -69,6 +75,7 @@ export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
             placeholder="Email"
             value={value}
             onBlur={onBlur}
+            error={errors.email && errors.email.message}
           />
         )}
       />
@@ -83,6 +90,7 @@ export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
             secureTextEntry={true}
             value={value}
             onBlur={onBlur}
+            error={errors.password && errors.password.message}
           />
         )}
       />
@@ -97,12 +105,16 @@ export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
             secureTextEntry={true}
             value={value}
             onBlur={onBlur}
+            error={errors.confirmPassword && errors.confirmPassword.message}
           />
         )}
       />
       <Animated.View style={submitButtonAnimatedStyle}>
-        <SubmitButton style={styles.button} onSubmit={handleSubmit(onSubmit)}>
-          <Text style={styles.buttonText}>Register</Text>
+        <SubmitButton
+          style={styles.button}
+          onSubmit={handleSubmit(onSubmit, onInvalid)}
+        >
+          <Text style={styles.buttonText}>Create Account</Text>
         </SubmitButton>
       </Animated.View>
     </View>
@@ -126,6 +138,5 @@ const styles = StyleSheet.create({
   error: {
     color: themes.light.error,
     fontSize: Typography.fontSize.xs,
-    marginTop: Spacing.xs,
   },
 });
