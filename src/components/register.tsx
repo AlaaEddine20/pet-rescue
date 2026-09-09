@@ -1,7 +1,9 @@
 import SubmitButton from "@/components/submit-button";
 import ThemedInput from "@/components/themed-input";
 import { Spacing, Typography, themes } from "@/constants/theme";
-import { useState } from "react";
+import { NewUser, newUserSchema } from "@/lib/validators";
+import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
+import { Controller, useForm } from "react-hook-form";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import type { SharedValue } from "react-native-reanimated";
 import Animated, {
@@ -16,18 +18,16 @@ interface RegisterFormProps {
 }
 
 export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(newUserSchema),
   });
 
-  const handleInputsChange = (field: keyof typeof form, value: string) =>
-    setForm((prev) => ({ ...prev, [field]: value }));
-
-  const handleSubmit = () => {
-    console.log("Form submitted:", form);
+  const onSubmit = (formData: NewUser) => {
+    console.log("Form submitted:", formData);
   };
 
   const submitButtonAnimatedStyle = useAnimatedStyle(() => ({
@@ -45,34 +45,63 @@ export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
 
   return (
     <View style={styles.container}>
-      <ThemedInput
-        id="name-input"
-        onChangeText={(value) => handleInputsChange("name", value)}
-        placeholder="Name"
-        value={form.name}
+      <Controller
+        control={control}
+        name="name"
+        render={({ field: { onChange, value, onBlur } }) => (
+          <ThemedInput
+            id="name-input"
+            onChangeText={onChange}
+            placeholder="Name"
+            value={value}
+            onBlur={onBlur}
+          />
+        )}
       />
-      <ThemedInput
-        id="email-input"
-        onChangeText={(value) => handleInputsChange("email", value)}
-        placeholder="Email"
-        value={form.email}
+      {errors.name && <Text style={styles.error}>{errors.name.message}</Text>}
+      <Controller
+        control={control}
+        name="email"
+        render={({ field: { onChange, value, onBlur } }) => (
+          <ThemedInput
+            id="email-input"
+            onChangeText={onChange}
+            placeholder="Email"
+            value={value}
+            onBlur={onBlur}
+          />
+        )}
       />
-      <ThemedInput
-        id="password-input"
-        onChangeText={(value) => handleInputsChange("password", value)}
-        placeholder="Password"
-        secureTextEntry={true}
-        value={form.password}
+      <Controller
+        control={control}
+        name="password"
+        render={({ field: { onChange, value, onBlur } }) => (
+          <ThemedInput
+            id="password-input"
+            onChangeText={onChange}
+            placeholder="Password"
+            secureTextEntry={true}
+            value={value}
+            onBlur={onBlur}
+          />
+        )}
       />
-      <ThemedInput
-        id="confirm-password-input"
-        onChangeText={(value) => handleInputsChange("confirmPassword", value)}
-        placeholder="Confirm Password"
-        secureTextEntry={true}
-        value={form.confirmPassword}
+      <Controller
+        control={control}
+        name="confirmPassword"
+        render={({ field: { onChange, value, onBlur } }) => (
+          <ThemedInput
+            id="confirm-password-input"
+            onChangeText={onChange}
+            placeholder="Confirm Password"
+            secureTextEntry={true}
+            value={value}
+            onBlur={onBlur}
+          />
+        )}
       />
       <Animated.View style={submitButtonAnimatedStyle}>
-        <SubmitButton style={styles.button} onSubmit={handleSubmit}>
+        <SubmitButton style={styles.button} onSubmit={handleSubmit(onSubmit)}>
           <Text style={styles.buttonText}>Register</Text>
         </SubmitButton>
       </Animated.View>
@@ -93,5 +122,10 @@ const styles = StyleSheet.create({
     color: themes.light.background,
     fontFamily: Typography.fontFamily.semibold,
     fontSize: Typography.fontSize.md,
+  },
+  error: {
+    color: themes.light.error,
+    fontSize: Typography.fontSize.xs,
+    marginTop: Spacing.xs,
   },
 });

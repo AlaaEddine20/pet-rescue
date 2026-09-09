@@ -1,7 +1,10 @@
 import SubmitButton from "@/components/submit-button";
 import ThemedInput from "@/components/themed-input";
 import { Spacing, Typography, themes } from "@/constants/theme";
+import { registeredUserSchema } from "@/lib/validators";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import type { SharedValue } from "react-native-reanimated";
 import Animated, {
@@ -20,11 +23,18 @@ export function SignInForm({ submitButtonSlide }: SignInFormProps) {
     email: "",
     password: "",
   });
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(registeredUserSchema),
+  });
 
   const handleInputsChange = (field: keyof typeof form, value: string) =>
     setForm((prev) => ({ ...prev, [field]: value }));
 
-  const handleSubmit = () => {
+  const onSubmit = () => {
     console.log("Form submitted:", form);
   };
 
@@ -43,13 +53,20 @@ export function SignInForm({ submitButtonSlide }: SignInFormProps) {
 
   return (
     <View style={styles.container}>
-      <ThemedInput
-        id="email-input"
-        onChangeText={(value) => handleInputsChange("email", value)}
-        placeholder="Email"
-        value={form.email}
-        accessibilityLabel="Email Input"
+      <Controller
+        control={control}
+        name="email"
+        render={({ field: { onChange, value } }) => (
+          <ThemedInput
+            id="email-input"
+            onChangeText={(value) => handleInputsChange("email", value)}
+            placeholder="Email"
+            value={form.email}
+            accessibilityLabel="Email Input"
+          />
+        )}
       />
+
       <ThemedInput
         id="password-input"
         onChangeText={(value) => handleInputsChange("password", value)}
@@ -59,7 +76,7 @@ export function SignInForm({ submitButtonSlide }: SignInFormProps) {
         value={form.password}
       />
       <Animated.View style={submitButtonAnimatedStyle}>
-        <SubmitButton style={styles.button} onSubmit={handleSubmit}>
+        <SubmitButton style={styles.button} onSubmit={handleSubmit(onSubmit)}>
           <Text style={styles.buttonText}>Sign In</Text>
         </SubmitButton>
       </Animated.View>
