@@ -8,6 +8,7 @@ import {
   LOGO_SOURCES,
   Spacing,
   SUBMIT_BUTTON_SLIDE_DURATION,
+  themes,
 } from "@/constants/theme";
 import { useEffect, useState } from "react";
 import { Image, StyleSheet, View } from "react-native";
@@ -69,14 +70,13 @@ const NoAuthPage = () => {
           resizeMode="contain"
           style={{
             width: "100%",
-            aspectRatio: 1.5,
             position: "relative",
-            height: 300,
+            height: "100%",
           }}
         />
       </Animated.View>
       <Animated.View style={captionAnimatedStyle}>
-        <ThemedText variant="caption">
+        <ThemedText variant="caption" style={styles.text}>
           Find and rescue abandoned pets near you
         </ThemedText>
       </Animated.View>
@@ -107,7 +107,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     paddingHorizontal: Spacing.s,
-    paddingVertical: Spacing.m,
+    paddingTop: Spacing.m,
+    paddingBottom: Spacing.xl,
     overflow: "scroll",
   },
   image: {
@@ -117,6 +118,7 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignSelf: "center",
+    height: "40%",
   },
   formContainer: {
     marginTop: 20,
@@ -126,6 +128,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: "center",
     marginBottom: 20,
+    color: themes.light.text,
   },
 });
 

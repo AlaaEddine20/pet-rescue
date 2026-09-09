@@ -48,11 +48,12 @@ export const SUBMIT_BUTTON_SLIDE_DURATION = 600;
 
 export const themes = {
   light: {
-    text: "#0F2033",
+    text: "#7e818c",
     background: "#ffffff",
     backgroundElement: "#EEF3F9",
     backgroundSelected: "#DCE7F4",
     textSecondary: "#2E86DE",
+    textTertiary: "#0F2033",
     error: "#FF4D4F",
   },
   dark: {

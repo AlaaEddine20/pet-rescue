@@ -39,7 +39,7 @@ export function SegmentedToggle({
                 styles.label,
                 {
                   color: isSelected
-                    ? themes.light.text
+                    ? themes.light.textTertiary
                     : themes.light.textSecondary,
                   fontFamily: isSelected
                     ? Typography.fontFamily.bold
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   label: {
-    fontSize: 15,
+    fontSize: Typography.fontSize.sm,
   },
   selectedSegment: {
     backgroundColor: themes.light.background,

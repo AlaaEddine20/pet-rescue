@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     padding: Spacing.m,
     marginVertical: Spacing.xs,
     fontSize: Typography.fontSize.xs,
-    color: themes.light.textSecondary,
+    color: themes.light.textTertiary,
     fontFamily: Typography.fontFamily.medium,
     margin: 0,
     width: "100%",

@@ -6,6 +6,7 @@ import { Text, TextStyle } from "react-native";
 interface ThemedTextProps {
   variant: TextVariant;
   children: React.ReactNode;
+  style?: TextStyle;
 }
 
 const textVariants: Record<TextVariant, TextStyle> = {
@@ -26,9 +27,14 @@ const textVariants: Record<TextVariant, TextStyle> = {
   },
 };
 
-export function ThemedText({ variant, children, ...rest }: ThemedTextProps) {
+export function ThemedText({
+  variant,
+  children,
+  style,
+  ...rest
+}: ThemedTextProps) {
   return (
-    <Text style={textVariants[variant]} {...rest}>
+    <Text style={[style, textVariants[variant]]} {...rest}>
       {children}
     </Text>
   );
