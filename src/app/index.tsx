@@ -1,5 +1,5 @@
 import NoAuthPage from "@/pages/noAuth";
-import { View } from "react-native";
+import { ScrollView } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import "../globals.css";
 
@@ -8,11 +8,11 @@ const safeArea = { flex: 1 };
 const Index = () => {
   return (
     <SafeAreaProvider>
-      <View style={{ flex: 1 }}>
-        <SafeAreaView style={safeArea}>
+      <SafeAreaView style={safeArea}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <NoAuthPage />
-        </SafeAreaView>
-      </View>
+        </ScrollView>
+      </SafeAreaView>
     </SafeAreaProvider>
   );
 };
