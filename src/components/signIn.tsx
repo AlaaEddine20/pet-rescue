@@ -1,9 +1,8 @@
 import SubmitButton from "@/components/submit-button";
 import ThemedInput from "@/components/themed-input";
 import { Spacing, Typography, themes } from "@/constants/theme";
-import { registeredUserSchema } from "@/lib/validators";
+import { RegisteredUser, registeredUserSchema } from "@/lib/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import type { SharedValue } from "react-native-reanimated";
@@ -19,24 +18,17 @@ interface SignInFormProps {
 }
 
 export function SignInForm({ submitButtonSlide }: SignInFormProps) {
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<RegisteredUser>({
     resolver: zodResolver(registeredUserSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
-
-  const handleInputsChange = (field: keyof typeof form, value: string) =>
-    setForm((prev) => ({ ...prev, [field]: value }));
-
-  const onSubmit = () => {
-    console.log("Form submitted:", form);
-  };
 
   const submitButtonAnimatedStyle = useAnimatedStyle(() => ({
     opacity: submitButtonSlide.value,
@@ -51,30 +43,44 @@ export function SignInForm({ submitButtonSlide }: SignInFormProps) {
     ],
   }));
 
+  const onSubmit = (formData: RegisteredUser) => {
+    console.log("Form submitted:", formData);
+  };
+
   return (
     <View style={styles.container}>
       <Controller
         control={control}
         name="email"
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { onChange, value, onBlur } }) => (
           <ThemedInput
             id="email-input"
-            onChangeText={(value) => handleInputsChange("email", value)}
+            onChangeText={onChange}
             placeholder="Email"
-            value={form.email}
+            value={value}
+            onBlur={onBlur}
+            error={errors.email?.message}
             accessibilityLabel="Email Input"
           />
         )}
       />
-
-      <ThemedInput
-        id="password-input"
-        onChangeText={(value) => handleInputsChange("password", value)}
-        placeholder="Password"
-        accessibilityLabel="Password Input"
-        secureTextEntry={true}
-        value={form.password}
+      <Controller
+        control={control}
+        name="password"
+        render={({ field: { onChange, value, onBlur } }) => (
+          <ThemedInput
+            id="password-input"
+            onChangeText={onChange}
+            placeholder="Password"
+            secureTextEntry={true}
+            value={value}
+            onBlur={onBlur}
+            error={errors.password?.message}
+            accessibilityLabel="Password Input"
+          />
+        )}
       />
+
       <Animated.View style={submitButtonAnimatedStyle}>
         <SubmitButton style={styles.button} onSubmit={handleSubmit(onSubmit)}>
           <Text style={styles.buttonText}>Sign In</Text>

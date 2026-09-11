@@ -1,5 +1,11 @@
 import { Spacing } from "@/constants/theme";
-import { Pressable, StyleProp, StyleSheet, ViewStyle } from "react-native";
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  ViewStyle,
+} from "react-native";
 
 interface SubmitButtonProps {
   style?: StyleProp<ViewStyle>;
@@ -10,12 +16,16 @@ interface SubmitButtonProps {
 const SubmitButton = ({ style, onSubmit, children }: SubmitButtonProps) => {
   return (
     <Pressable
-      style={[styles.defaultButton, style]}
+      style={({ pressed }) => [
+        styles.defaultButton,
+        style,
+        pressed && { opacity: 0.7 },
+      ]}
       onPress={onSubmit}
       accessibilityRole="button"
       accessibilityLabel="Submit Button"
     >
-      {children}
+      <Text>{children}</Text>
     </Pressable>
   );
 };

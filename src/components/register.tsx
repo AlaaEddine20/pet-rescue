@@ -2,9 +2,10 @@ import SubmitButton from "@/components/submit-button";
 import ThemedInput from "@/components/themed-input";
 import { Spacing, Typography, themes } from "@/constants/theme";
 import { NewUser, newUserSchema } from "@/lib/validators";
-import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, Text } from "react-native";
 import type { SharedValue } from "react-native-reanimated";
 import Animated, {
   interpolate,
@@ -32,6 +33,8 @@ export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
     },
   });
 
+  const scrollViewRef = useRef<ScrollView>(null);
+
   const submitButtonAnimatedStyle = useAnimatedStyle(() => ({
     opacity: submitButtonSlide.value,
     transform: [
@@ -49,8 +52,16 @@ export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
     console.log("Form submitted:", formData);
   };
 
+  const onInvalid = () => {
+    requestAnimationFrame(() => {
+      scrollViewRef.current?.scrollToEnd({
+        animated: true,
+      });
+    });
+  };
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} ref={scrollViewRef}>
       <Controller
         control={control}
         name="name"
@@ -61,7 +72,7 @@ export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
             placeholder="Name"
             value={value}
             onBlur={onBlur}
-            error={errors.name && errors.name.message}
+            error={errors.name?.message}
           />
         )}
       />
@@ -75,7 +86,7 @@ export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
             placeholder="Email"
             value={value}
             onBlur={onBlur}
-            error={errors.email && errors.email.message}
+            error={errors.email?.message}
           />
         )}
       />
@@ -90,7 +101,7 @@ export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
             secureTextEntry={true}
             value={value}
             onBlur={onBlur}
-            error={errors.password && errors.password.message}
+            error={errors.password?.message}
           />
         )}
       />
@@ -105,11 +116,11 @@ export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
             secureTextEntry={true}
             value={value}
             onBlur={onBlur}
-            error={errors.confirmPassword && errors.confirmPassword.message}
+            error={errors.confirmPassword?.message}
           />
         )}
       />
-      <Animated.View style={submitButtonAnimatedStyle}>
+      <Animated.View style={submitButtonAnimatedStyle} ref={scrollViewRef}>
         <SubmitButton
           style={styles.button}
           onSubmit={handleSubmit(onSubmit, onInvalid)}
@@ -117,7 +128,7 @@ export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
           <Text style={styles.buttonText}>Create Account</Text>
         </SubmitButton>
       </Animated.View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -125,6 +136,7 @@ const styles = StyleSheet.create({
   container: {
     gap: Spacing.s,
     width: "100%",
+    flex: 1,
   },
   button: {
     backgroundColor: themes.light.textSecondary,
