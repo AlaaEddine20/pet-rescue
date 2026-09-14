@@ -3,7 +3,7 @@ import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { ScrollView, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 export function RegisterForm() {
   const {
@@ -25,13 +25,13 @@ export function RegisterForm() {
   };
 
   return (
-    <ScrollView className="gap-2 w-full flex-1">
+    <View className="gap-3 w-full flex-1">
       <Controller
         control={control}
         name="name"
         render={({ field: { onChange, value, onBlur } }) => (
           <>
-            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-4 shadow-sm">
+            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
               <InputField
                 id="name-input"
                 onChangeText={onChange}
@@ -55,7 +55,7 @@ export function RegisterForm() {
         name="email"
         render={({ field: { onChange, value, onBlur } }) => (
           <>
-            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-4 shadow-sm">
+            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
               <InputField
                 id="email-input"
                 onChangeText={onChange}
@@ -79,7 +79,7 @@ export function RegisterForm() {
         name="password"
         render={({ field: { onChange, value, onBlur } }) => (
           <>
-            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-4 shadow-sm">
+            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
               <InputField
                 id="password-input"
                 onChangeText={onChange}
@@ -104,7 +104,7 @@ export function RegisterForm() {
         name="confirmPassword"
         render={({ field: { onChange, value, onBlur } }) => (
           <>
-            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-4 shadow-sm">
+            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
               <InputField
                 id="confirm-password-input"
                 onChangeText={onChange}
@@ -135,6 +135,6 @@ export function RegisterForm() {
           </ButtonText>
         </Button>
       </View>
-    </ScrollView>
+    </View>
   );
 }

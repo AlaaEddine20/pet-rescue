@@ -23,13 +23,13 @@ export function SignInForm() {
   };
 
   return (
-    <View className="gap-2 w-full">
+    <View className="gap-3 w-full">
       <Controller
         control={control}
         name="email"
         render={({ field: { onChange, value, onBlur } }) => (
           <>
-            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-4 shadow-sm">
+            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
               <InputField
                 id="email-input"
                 onChangeText={onChange}
@@ -54,7 +54,7 @@ export function SignInForm() {
         name="password"
         render={({ field: { onChange, value, onBlur } }) => (
           <>
-            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-4 shadow-sm">
+            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
               <InputField
                 id="password-input"
                 onChangeText={onChange}
