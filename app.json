@@ -31,7 +31,8 @@
             "./assets/fonts/NunitoSans-Bold.ttf"
           ]
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,
