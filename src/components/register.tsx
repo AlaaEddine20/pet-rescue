@@ -1,24 +1,11 @@
-import SubmitButton from "@/components/submit-button";
-import ThemedInput from "@/components/themed-input";
-import { Spacing, Typography, themes } from "@/constants/theme";
 import { NewUser, newUserSchema } from "@/lib/validators";
+import { Button, ButtonText } from "@/ui/button";
+import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Dimensions, ScrollView, StyleSheet, Text } from "react-native";
-import type { SharedValue } from "react-native-reanimated";
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-} from "react-native-reanimated";
+import { ScrollView, Text, View } from "react-native";
 
-const SCREEN_HEIGHT = Dimensions.get("window").height;
-
-interface RegisterFormProps {
-  submitButtonSlide: SharedValue<number>;
-}
-
-export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
+export function RegisterForm() {
   const {
     control,
     handleSubmit,
@@ -33,122 +20,121 @@ export function RegisterForm({ submitButtonSlide }: RegisterFormProps) {
     },
   });
 
-  const scrollViewRef = useRef<ScrollView>(null);
-
-  const submitButtonAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: submitButtonSlide.value,
-    transform: [
-      {
-        translateY: interpolate(
-          submitButtonSlide.value,
-          [0, 1],
-          [SCREEN_HEIGHT, 0],
-        ),
-      },
-    ],
-  }));
-
   const onSubmit = (formData: NewUser) => {
     console.log("Form submitted:", formData);
   };
 
-  const onInvalid = () => {
-    requestAnimationFrame(() => {
-      scrollViewRef.current?.scrollToEnd({
-        animated: true,
-      });
-    });
-  };
-
   return (
-    <ScrollView style={styles.container} ref={scrollViewRef}>
+    <ScrollView className="gap-2 w-full flex-1">
       <Controller
         control={control}
         name="name"
         render={({ field: { onChange, value, onBlur } }) => (
-          <ThemedInput
-            id="name-input"
-            onChangeText={onChange}
-            placeholder="Name"
-            value={value}
-            onBlur={onBlur}
-            error={errors.name?.message}
-          />
+          <>
+            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-4 shadow-sm">
+              <InputField
+                id="name-input"
+                onChangeText={onChange}
+                placeholder="Name"
+                value={value}
+                onBlur={onBlur}
+                autoCapitalize="none"
+                className="font-pet-medium text-base text-foreground"
+              />
+            </Input>
+            {errors.name?.message && (
+              <Text className="text-sm text-destructive">
+                {errors.name.message}
+              </Text>
+            )}
+          </>
         )}
       />
       <Controller
         control={control}
         name="email"
         render={({ field: { onChange, value, onBlur } }) => (
-          <ThemedInput
-            id="email-input"
-            onChangeText={onChange}
-            placeholder="Email"
-            value={value}
-            onBlur={onBlur}
-            error={errors.email?.message}
-          />
+          <>
+            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-4 shadow-sm">
+              <InputField
+                id="email-input"
+                onChangeText={onChange}
+                placeholder="Email"
+                value={value}
+                onBlur={onBlur}
+                autoCapitalize="none"
+                className="font-pet-medium text-base text-foreground"
+              />
+            </Input>
+            {errors.email?.message && (
+              <Text className="text-sm text-destructive">
+                {errors.email.message}
+              </Text>
+            )}
+          </>
         )}
       />
       <Controller
         control={control}
         name="password"
         render={({ field: { onChange, value, onBlur } }) => (
-          <ThemedInput
-            id="password-input"
-            onChangeText={onChange}
-            placeholder="Password"
-            secureTextEntry={true}
-            value={value}
-            onBlur={onBlur}
-            error={errors.password?.message}
-          />
+          <>
+            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-4 shadow-sm">
+              <InputField
+                id="password-input"
+                onChangeText={onChange}
+                placeholder="Password"
+                secureTextEntry
+                value={value}
+                onBlur={onBlur}
+                autoCapitalize="none"
+                className="font-pet-medium text-base text-foreground"
+              />
+            </Input>
+            {errors.password?.message && (
+              <Text className="text-sm text-destructive">
+                {errors.password.message}
+              </Text>
+            )}
+          </>
         )}
       />
       <Controller
         control={control}
         name="confirmPassword"
         render={({ field: { onChange, value, onBlur } }) => (
-          <ThemedInput
-            id="confirm-password-input"
-            onChangeText={onChange}
-            placeholder="Confirm Password"
-            secureTextEntry={true}
-            value={value}
-            onBlur={onBlur}
-            error={errors.confirmPassword?.message}
-          />
+          <>
+            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-4 shadow-sm">
+              <InputField
+                id="confirm-password-input"
+                onChangeText={onChange}
+                placeholder="Confirm Password"
+                secureTextEntry
+                value={value}
+                onBlur={onBlur}
+                autoCapitalize="none"
+                className="font-pet-medium text-base text-foreground"
+              />
+            </Input>
+            {errors.confirmPassword?.message && (
+              <Text className="text-sm text-destructive">
+                {errors.confirmPassword.message}
+              </Text>
+            )}
+          </>
         )}
       />
-      <Animated.View style={submitButtonAnimatedStyle} ref={scrollViewRef}>
-        <SubmitButton
-          style={styles.button}
-          onSubmit={handleSubmit(onSubmit, onInvalid)}
+      <View>
+        <Button
+          className="mt-2 rounded-lg bg-blue-600 py-4"
+          onPress={handleSubmit(onSubmit)}
+          accessibilityLabel="Create account"
         >
-          <Text style={styles.buttonText}>Create Account</Text>
-        </SubmitButton>
-      </Animated.View>
+          <ButtonText className="font-pet-semibold text-white">
+            Create Account
+          </ButtonText>
+        </Button>
+      </View>
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    gap: Spacing.s,
-    width: "100%",
-    flex: 1,
-  },
-  button: {
-    backgroundColor: themes.light.textSecondary,
-    marginTop: 10,
-  },
-  buttonText: {
-    color: themes.light.background,
-    fontFamily: Typography.fontFamily.semibold,
-    fontSize: Typography.fontSize.md,
-  },
-  error: {
-    color: themes.light.error,
-    fontSize: Typography.fontSize.xs,
-  },
-});

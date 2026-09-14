@@ -1,4 +1,4 @@
-import NoAuthPage from "@/pages/noAuth";
+import NoAuthScreen from "@/screens/NoAuth/noAuthScreen";
 import { ScrollView } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import "../globals.css";
@@ -8,7 +8,7 @@ const Index = () => {
     <SafeAreaProvider>
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-          <NoAuthPage />
+          <NoAuthScreen />
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>

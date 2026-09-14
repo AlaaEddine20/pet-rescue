@@ -1,6 +1,5 @@
-import { themes, Typography } from "@/constants/theme";
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 export type SegmentedToggleOption = {
   label: string;
@@ -19,12 +18,7 @@ export function SegmentedToggle({
   onChange,
 }: SegmentedToggleProps) {
   return (
-    <View
-      style={[
-        styles.container,
-        { backgroundColor: themes.light.backgroundElement },
-      ]}
-    >
+    <View className="flex-row self-stretch rounded-full bg-secondary p-1">
       {options.map((option) => {
         const isSelected = option.value === value;
 
@@ -32,20 +26,16 @@ export function SegmentedToggle({
           <Pressable
             key={option.value}
             onPress={() => onChange(option.value)}
-            style={[styles.segment, isSelected && styles.selectedSegment]}
+            className={`flex-1 items-center justify-center rounded-full py-[10px] ${
+              isSelected ? "bg-background shadow-sm" : ""
+            }`}
           >
             <Text
-              style={[
-                styles.label,
-                {
-                  color: isSelected
-                    ? themes.light.textTertiary
-                    : themes.light.textSecondary,
-                  fontFamily: isSelected
-                    ? Typography.fontFamily.bold
-                    : Typography.fontFamily.medium,
-                },
-              ]}
+              className={
+                isSelected
+                  ? "font-pet-bold text-sm text-foreground"
+                  : "font-pet-medium text-sm text-blue-600"
+              }
             >
               {option.label}
             </Text>
@@ -55,32 +45,3 @@ export function SegmentedToggle({
     </View>
   );
 }
-
-// ---- Styles -----------------------------------------------------------
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    borderRadius: 999,
-    padding: 4,
-    alignSelf: "stretch",
-  },
-  segment: {
-    flex: 1,
-    borderRadius: 999,
-    paddingVertical: 10,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  label: {
-    fontSize: Typography.fontSize.sm,
-  },
-  selectedSegment: {
-    backgroundColor: themes.light.background,
-    shadowColor: "#000",
-    shadowOpacity: 0.06,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 1 },
-    elevation: 2,
-  },
-});

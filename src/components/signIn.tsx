@@ -1,23 +1,11 @@
-import SubmitButton from "@/components/submit-button";
-import ThemedInput from "@/components/themed-input";
-import { Spacing, Typography, themes } from "@/constants/theme";
 import { RegisteredUser, registeredUserSchema } from "@/lib/validators";
+import { Button, ButtonText } from "@/ui/button";
+import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
-import type { SharedValue } from "react-native-reanimated";
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-} from "react-native-reanimated";
+import { Text, View } from "react-native";
 
-const SCREEN_HEIGHT = Dimensions.get("window").height;
-
-interface SignInFormProps {
-  submitButtonSlide: SharedValue<number>;
-}
-
-export function SignInForm({ submitButtonSlide }: SignInFormProps) {
+export function SignInForm() {
   const {
     control,
     handleSubmit,
@@ -30,78 +18,75 @@ export function SignInForm({ submitButtonSlide }: SignInFormProps) {
     },
   });
 
-  const submitButtonAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: submitButtonSlide.value,
-    transform: [
-      {
-        translateY: interpolate(
-          submitButtonSlide.value,
-          [0, 1],
-          [SCREEN_HEIGHT, 0],
-        ),
-      },
-    ],
-  }));
-
   const onSubmit = (formData: RegisteredUser) => {
     console.log("Form submitted:", formData);
   };
 
   return (
-    <View style={styles.container}>
+    <View className="gap-2 w-full">
       <Controller
         control={control}
         name="email"
         render={({ field: { onChange, value, onBlur } }) => (
-          <ThemedInput
-            id="email-input"
-            onChangeText={onChange}
-            placeholder="Email"
-            value={value}
-            onBlur={onBlur}
-            error={errors.email?.message}
-            accessibilityLabel="Email Input"
-          />
+          <>
+            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-4 shadow-sm">
+              <InputField
+                id="email-input"
+                onChangeText={onChange}
+                placeholder="Email"
+                value={value}
+                onBlur={onBlur}
+                autoCapitalize="none"
+                accessibilityLabel="Email Input"
+                className="font-pet-medium text-base text-foreground"
+              />
+            </Input>
+            {errors.email?.message && (
+              <Text className="text-sm text-destructive">
+                {errors.email.message}
+              </Text>
+            )}
+          </>
         )}
       />
       <Controller
         control={control}
         name="password"
         render={({ field: { onChange, value, onBlur } }) => (
-          <ThemedInput
-            id="password-input"
-            onChangeText={onChange}
-            placeholder="Password"
-            secureTextEntry={true}
-            value={value}
-            onBlur={onBlur}
-            error={errors.password?.message}
-            accessibilityLabel="Password Input"
-          />
+          <>
+            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-4 shadow-sm">
+              <InputField
+                id="password-input"
+                onChangeText={onChange}
+                placeholder="Password"
+                secureTextEntry
+                value={value}
+                onBlur={onBlur}
+                autoCapitalize="none"
+                accessibilityLabel="Password Input"
+                className="font-pet-medium text-base text-foreground"
+              />
+            </Input>
+            {errors.password?.message && (
+              <Text className="text-sm text-destructive">
+                {errors.password.message}
+              </Text>
+            )}
+          </>
         )}
       />
 
-      <Animated.View style={submitButtonAnimatedStyle}>
-        <SubmitButton style={styles.button} onSubmit={handleSubmit(onSubmit)}>
-          <Text style={styles.buttonText}>Sign In</Text>
-        </SubmitButton>
-      </Animated.View>
+      <View>
+        <Button
+          className="mt-2 rounded-lg bg-blue-600 py-4"
+          onPress={handleSubmit(onSubmit)}
+          accessibilityLabel="Sign in"
+        >
+          <ButtonText className="font-pet-semibold text-white">
+            Sign In
+          </ButtonText>
+        </Button>
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    gap: Spacing.s,
-    width: "100%",
-  },
-  button: {
-    backgroundColor: themes.light.textSecondary,
-    marginTop: 10,
-  },
-  buttonText: {
-    color: themes.light.background,
-    fontFamily: Typography.fontFamily.semibold,
-    fontSize: Typography.fontSize.md,
-  },
-});

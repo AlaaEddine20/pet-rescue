@@ -3,6 +3,9 @@ import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 
+import "../globals.css";
+import { GluestackUIProvider } from "@/ui/gluestack-ui-provider";
+
 export default function RootLayout() {
   const [loaded] = useFonts({
     "NunitoSans-Regular": require("../../assets/fonts/NunitoSans-Regular.ttf"),
@@ -22,10 +25,9 @@ export default function RootLayout() {
   }
 
   return (
-    <>
+    <GluestackUIProvider mode="system">
       <Stack screenOptions={{ headerShown: false }} />
-      <StatusBar style={"light"} />{" "}
-      {/** replace with dynamic value after theme context is ready */}
-    </>
+      <StatusBar style="auto" />
+    </GluestackUIProvider>
   );
 }
