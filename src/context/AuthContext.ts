@@ -1,11 +1,11 @@
-import type { LoginUser, SignUpUser } from "@/lib/validators";
+import type { LoginUser, Profile, SignUpUser } from "@/types/Auth";
 import type { Session, User } from "@supabase/supabase-js";
 import { createContext } from "react";
 
 export type AuthContextType = {
   user: User | null;
   session: Session | null;
-  profile: LoginUser | null;
+  profile: Profile | null;
   isLoading: boolean;
 
   signUp: (data: SignUpUser) => Promise<{

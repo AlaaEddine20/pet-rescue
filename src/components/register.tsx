@@ -1,4 +1,6 @@
-import { SignUpUser, SignUpUserSchema } from "@/lib/validators";
+import { useAuth } from "@/hooks/useAuth";
+import { SignUpUserSchema } from "@/lib/validators";
+import { SignUpUser } from "@/types/Auth";
 import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,9 +21,13 @@ export function RegisterForm() {
       confirmPassword: "",
     },
   });
+  const { signUp } = useAuth();
 
-  const onSubmit = (formData: SignUpUser) => {
-    console.log("Form submitted:", formData);
+  const onSubmit = async (formData: SignUpUser) => {
+    const { error } = await signUp(formData);
+    if (error) {
+      console.error("Error during sign-up:", error.message);
+    }
   };
 
   return (
