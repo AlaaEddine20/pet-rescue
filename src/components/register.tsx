@@ -15,7 +15,7 @@ export function RegisterForm() {
   } = useForm({
     resolver: zodResolver(SignUpUserSchema),
     defaultValues: {
-      userName: "",
+      user_name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -34,12 +34,12 @@ export function RegisterForm() {
     <View className="gap-3 w-full flex-1">
       <Controller
         control={control}
-        name="userName"
+        name="user_name"
         render={({ field: { onChange, value, onBlur } }) => (
           <>
             <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
               <InputField
-                id="userName-input"
+                id="user_name-input"
                 onChangeText={onChange}
                 placeholder="Name"
                 value={value}
@@ -48,9 +48,9 @@ export function RegisterForm() {
                 className="font-pet-medium text-base text-foreground"
               />
             </Input>
-            {errors.userName?.message && (
+            {errors.user_name?.message && (
               <Text className="text-sm text-destructive">
-                {errors.userName.message}
+                {errors.user_name.message}
               </Text>
             )}
           </>
