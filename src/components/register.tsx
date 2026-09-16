@@ -1,4 +1,4 @@
-import { NewUser, newUserSchema } from "@/lib/validators";
+import { SignUpUser, SignUpUserSchema } from "@/lib/validators";
 import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,16 +11,16 @@ export function RegisterForm() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(newUserSchema),
+    resolver: zodResolver(SignUpUserSchema),
     defaultValues: {
-      name: "",
+      userName: "",
       email: "",
       password: "",
       confirmPassword: "",
     },
   });
 
-  const onSubmit = (formData: NewUser) => {
+  const onSubmit = (formData: SignUpUser) => {
     console.log("Form submitted:", formData);
   };
 
@@ -28,12 +28,12 @@ export function RegisterForm() {
     <View className="gap-3 w-full flex-1">
       <Controller
         control={control}
-        name="name"
+        name="userName"
         render={({ field: { onChange, value, onBlur } }) => (
           <>
             <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
               <InputField
-                id="name-input"
+                id="userName-input"
                 onChangeText={onChange}
                 placeholder="Name"
                 value={value}
@@ -42,9 +42,9 @@ export function RegisterForm() {
                 className="font-pet-medium text-base text-foreground"
               />
             </Input>
-            {errors.name?.message && (
+            {errors.userName?.message && (
               <Text className="text-sm text-destructive">
-                {errors.name.message}
+                {errors.userName.message}
               </Text>
             )}
           </>

@@ -1,4 +1,4 @@
-import { RegisteredUser, registeredUserSchema } from "@/lib/validators";
+import { LoginUser, LoginUserSchema } from "@/lib/validators";
 import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,15 +10,15 @@ export function SignInForm() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisteredUser>({
-    resolver: zodResolver(registeredUserSchema),
+  } = useForm<LoginUser>({
+    resolver: zodResolver(LoginUserSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (formData: RegisteredUser) => {
+  const onSubmit = (formData: LoginUser) => {
     console.log("Form submitted:", formData);
   };
 
