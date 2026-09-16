@@ -1,61 +1,57 @@
 import { AuthContext } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
-import { LoginUser, Profile, SignUpUser } from "@/types/Auth";
+import type { LoginUser, SignUpUser } from "@/types/Auth";
 import type { PropsWithChildren } from "react";
 import { useEffect, useState } from "react";
 
+import { Profile } from "@/types/Auth";
 import type { Session, User } from "@supabase/supabase-js";
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [isAuthLoading, setIsAuthLoading] = useState(true);
-  const [isProfileLoading, setIsProfileLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setIsAuthLoading(false);
-    });
+    let isMounted = true;
 
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
+    const initializeAuth = async () => {
+      const {
+        data: { session: initialSession },
+        error,
+      } = await supabase.auth.getSession();
 
-  useEffect(() => {
-    if (!user) {
-      setProfile(null);
-      setIsProfileLoading(false);
-      return;
-    }
-
-    setIsProfileLoading(true);
-
-    const loadProfile = async () => {
-      const { data, error } = await supabase
-        .from("users")
-        .select("id, user_name, role, avatar_url")
-        .eq("id", user.id)
-        .single();
-
-      if (error) {
-        console.error("Error loading profile:", error);
-        setProfile(null);
-        setIsProfileLoading(false);
+      if (!isMounted) {
         return;
       }
 
-      setProfile(data);
-      setIsProfileLoading(false);
+      if (error) {
+        console.error("Error getting session:", error);
+      }
+
+      setSession(initialSession);
+      setUser(initialSession?.user ?? null);
+      setProfile(null);
+      setIsLoading(false);
     };
 
-    loadProfile();
-  }, [user]);
+    initializeAuth();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      setSession(nextSession);
+      setUser(nextSession?.user ?? null);
+      setProfile(null);
+      setIsLoading(false);
+    });
+
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
 
   const signIn = async (userData: LoginUser) => {
     const { error } = await supabase.auth.signInWithPassword({
@@ -70,6 +66,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
     const { error } = await supabase.auth.signUp({
       email: userData.email,
       password: userData.password,
+      options: {
+        data: {
+          user_name: userData.user_name,
+        },
+      },
     });
 
     return { error };
@@ -87,7 +88,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         user,
         session,
         profile,
-        isLoading: isAuthLoading || isProfileLoading,
+        isLoading,
         signIn,
         signUp,
         signOut,

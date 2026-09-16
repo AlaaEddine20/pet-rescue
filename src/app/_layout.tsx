@@ -2,9 +2,8 @@ import { SplashScreenController } from "@/components/SplashscreenController";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { GluestackUIProvider } from "@/ui/gluestack-ui-provider";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
 import "../globals.css";
 
 export default function RootLayout() {
@@ -14,12 +13,6 @@ export default function RootLayout() {
     "NunitoSans-SemiBold": require("../../assets/fonts/NunitoSans-SemiBold.ttf"),
     "NunitoSans-Bold": require("../../assets/fonts/NunitoSans-Bold.ttf"),
   });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
 
   if (!loaded) {
     return null;
