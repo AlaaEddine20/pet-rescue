@@ -1,10 +1,11 @@
+import { SplashScreenController } from "@/components/SplashscreenController";
+import { AuthProvider } from "@/providers/AuthProvider";
+import { GluestackUIProvider } from "@/ui/gluestack-ui-provider";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-
 import "../globals.css";
-import { GluestackUIProvider } from "@/ui/gluestack-ui-provider";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -26,8 +27,11 @@ export default function RootLayout() {
 
   return (
     <GluestackUIProvider mode="system">
-      <Stack screenOptions={{ headerShown: false }} />
-      <StatusBar style="auto" />
+      <AuthProvider>
+        <SplashScreenController />
+        <Stack screenOptions={{ headerShown: false }} />
+        <StatusBar style="auto" />
+      </AuthProvider>
     </GluestackUIProvider>
   );
 }
