@@ -1,4 +1,6 @@
-import { LoginUser, LoginUserSchema } from "@/lib/validators";
+import { useAuth } from "@/hooks/useAuth";
+import { LoginUserSchema } from "@/lib/validators";
+import { LoginUser } from "@/types/Auth";
 import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,8 +20,14 @@ export function SignInForm() {
     },
   });
 
-  const onSubmit = (formData: LoginUser) => {
+  const { signIn } = useAuth();
+
+  const onSubmit = async (formData: LoginUser) => {
     console.log("Form submitted:", formData);
+    const { error } = await signIn(formData);
+    if (error) {
+      console.error("Error during sign-in:", error.message);
+    }
   };
 
   return (
