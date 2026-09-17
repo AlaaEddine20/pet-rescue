@@ -1,12 +1,12 @@
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 SplashScreen.preventAutoHideAsync();
 
 export function SplashScreenController() {
-  const { isLoading } = useAuth();
+  const { isLoading } = useAuthContext();
 
   useEffect(() => {
     if (!isLoading) {

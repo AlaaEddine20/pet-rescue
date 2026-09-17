@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthContext } from "@/hooks/useAuthContext";
 import { LoginUserSchema } from "@/lib/validators";
 import { LoginUser } from "@/types/Auth";
 import { Button, ButtonText } from "@/ui/button";
@@ -20,7 +20,7 @@ export function SignInForm() {
     },
   });
 
-  const { signIn } = useAuth();
+  const { signIn } = useAuthContext();
 
   const onSubmit = async (formData: LoginUser) => {
     console.log("Form submitted:", formData);

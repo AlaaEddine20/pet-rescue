@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthContext } from "@/hooks/useAuthContext";
 import { SignUpUserSchema } from "@/lib/validators";
 import { SignUpUser } from "@/types/Auth";
 import { Button, ButtonText } from "@/ui/button";
@@ -21,7 +21,7 @@ export function RegisterForm() {
       confirmPassword: "",
     },
   });
-  const { signUp } = useAuth();
+  const { signUp } = useAuthContext();
 
   const onSubmit = async (formData: SignUpUser) => {
     const { error } = await signUp(formData);
