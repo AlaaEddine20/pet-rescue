@@ -1,100 +1,140 @@
 import { AuthContext } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
-import type { LoginUser, SignUpUser } from "@/types/Auth";
-import type { PropsWithChildren } from "react";
-import { useEffect, useState } from "react";
-
-import { Profile } from "@/types/Auth";
-import type { Session, User } from "@supabase/supabase-js";
+import { LoginUser, Profile, SignUpUser } from "@/types/Auth";
+import { Session, User } from "@supabase/supabase-js";
+import {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [profileError, setProfileError] = useState<string | null>(null);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
+  const [isProfileLoading, setIsProfileLoading] = useState(true);
 
-  useEffect(() => {
-    let isMounted = true;
+  const isLoading = isAuthLoading || isProfileLoading;
+  const isLoggedIn = !!session;
 
-    const initializeAuth = async () => {
-      const {
-        data: { session: initialSession },
-        error,
-      } = await supabase.auth.getSession();
+  const latestUserId = useRef<string | null>(null);
 
-      if (!isMounted) {
-        return;
-      }
+  const loadProfile = useCallback(async (userId: string) => {
+    latestUserId.current = userId;
+    setIsProfileLoading(true);
+    setProfileError(null);
 
-      if (error) {
-        console.error("Error getting session:", error);
-      }
+    const { data, error } = await supabase
+      .from("users")
+      .select("id, user_name, role, avatar_url")
+      .eq("id", userId)
+      .maybeSingle();
 
-      setSession(initialSession);
-      setUser(initialSession?.user ?? null);
+    // Se nel frattempo l'utente è cambiato, scarta questa risposta "stale"
+    if (latestUserId.current !== userId) return;
+
+    if (error) {
+      console.error("Errore nel caricamento del profilo:", error);
       setProfile(null);
-      setIsLoading(false);
-    };
-
-    initializeAuth();
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      setSession(nextSession);
-      setUser(nextSession?.user ?? null);
-      setProfile(null);
-      setIsLoading(false);
-    });
-
-    return () => {
-      isMounted = false;
-      subscription.unsubscribe();
-    };
+      setProfileError(error.message);
+    } else {
+      setProfile(data);
+    }
+    setIsProfileLoading(false);
   }, []);
 
-  const signIn = async (userData: LoginUser) => {
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, nextSession) => {
+      setSession(nextSession);
+      setUser(nextSession?.user ?? null);
+
+      if (event === "SIGNED_OUT") {
+        setProfile(null);
+        setProfileError(null);
+      }
+      if (event === "INITIAL_SESSION") {
+        setIsAuthLoading(false);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    // Aspetta di conoscere lo stato iniziale dell'auth prima di "chiudere" il loading
+    if (isAuthLoading) return;
+
+    if (!user) {
+      latestUserId.current = null;
+      setProfile(null);
+      setProfileError(null);
+      setIsProfileLoading(false);
+      return;
+    }
+
+    loadProfile(user.id);
+  }, [user?.id, isAuthLoading, loadProfile]);
+
+  const signIn = useCallback(async (userData: LoginUser) => {
     const { error } = await supabase.auth.signInWithPassword({
       email: userData.email,
       password: userData.password,
     });
-
     return { error };
-  };
+  }, []);
 
-  const signUp = async (userData: SignUpUser) => {
+  const signUp = useCallback(async (userData: SignUpUser) => {
     const { error } = await supabase.auth.signUp({
       email: userData.email,
       password: userData.password,
       options: {
-        data: {
-          user_name: userData.user_name,
-        },
+        data: { user_name: userData.user_name },
       },
     });
-
     return { error };
-  };
+  }, []);
 
-  const signOut = async () => {
+  const signOut = useCallback(async () => {
     const { error } = await supabase.auth.signOut();
-
     return { error };
-  };
+  }, []);
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        session,
-        profile,
-        isLoading,
-        signIn,
-        signUp,
-        signOut,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+  const refreshProfile = useCallback(() => {
+    if (user) loadProfile(user.id);
+  }, [user, loadProfile]);
+
+  const value = useMemo(
+    () => ({
+      user,
+      session,
+      profile,
+      profileError,
+      isLoading,
+      isLoggedIn,
+      signIn,
+      signUp,
+      signOut,
+      refreshProfile,
+    }),
+    [
+      user,
+      session,
+      profile,
+      profileError,
+      isLoading,
+      isLoggedIn,
+      signIn,
+      signUp,
+      signOut,
+      refreshProfile,
+    ],
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

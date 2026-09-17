@@ -7,6 +7,7 @@ export type AuthContextType = {
   session: Session | null;
   profile: Profile | null;
   isLoading: boolean;
+  isLoggedIn: boolean;
 
   signUp: (data: SignUpUser) => Promise<{
     error: Error | null;
