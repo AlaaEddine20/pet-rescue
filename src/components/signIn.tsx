@@ -5,7 +5,7 @@ import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 
 export function SignInForm() {
   const {
@@ -23,11 +23,8 @@ export function SignInForm() {
   const { signIn } = useAuthContext();
 
   const onSubmit = async (formData: LoginUser) => {
-    console.log("Form submitted:", formData);
     const { error } = await signIn(formData);
-    if (error) {
-      console.error("Error during sign-in:", error.message);
-    }
+    if (error) Alert.alert(error.message);
   };
 
   return (

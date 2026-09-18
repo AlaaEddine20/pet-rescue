@@ -5,6 +5,7 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "../globals.css";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -18,10 +19,26 @@ export default function RootLayout() {
     return null;
   }
 
+  function RootNavigator() {
+    const { isLoggedIn } = useAuthContext();
+    return (
+      <Stack>
+        <Stack.Protected guard={isLoggedIn}>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack.Protected>
+        <Stack.Protected guard={!isLoggedIn}>
+          <Stack.Screen name="login" options={{ headerShown: false }} />
+        </Stack.Protected>
+        <Stack.Screen name="+not-found" />
+      </Stack>
+    );
+  }
+
   return (
     <GluestackUIProvider mode="system">
       <AuthProvider>
         <SplashScreenController />
+        <RootNavigator />
         <Stack screenOptions={{ headerShown: false }} />
         <StatusBar style="auto" />
       </AuthProvider>
