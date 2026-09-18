@@ -1,5 +1,5 @@
 import type { LoginUser, Profile, SignUpUser } from "@/types/Auth";
-import type { Session, User } from "@supabase/supabase-js";
+import type { AuthError, Session, User } from "@supabase/supabase-js";
 import { createContext } from "react";
 
 export type AuthContextType = {
@@ -10,15 +10,15 @@ export type AuthContextType = {
   isLoggedIn: boolean;
 
   signUp: (data: SignUpUser) => Promise<{
-    error: Error | null;
+    error: AuthError | null;
   }>;
 
   signIn: (data: LoginUser) => Promise<{
-    error: Error | null;
+    error: AuthError | null;
   }>;
 
   signOut: () => Promise<{
-    error: Error | null;
+    error: AuthError | null;
   }>;
 };
 

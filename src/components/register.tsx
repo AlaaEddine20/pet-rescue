@@ -1,11 +1,13 @@
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { SignUpUserSchema } from "@/lib/validators";
+import { mapAuthError } from "@/mappers/authErrorMapper";
 import { SignUpUser } from "@/types/Auth";
 import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Alert, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 export function RegisterForm() {
   const {
@@ -21,11 +23,22 @@ export function RegisterForm() {
       confirmPassword: "",
     },
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>("");
+
   const { signUp } = useAuthContext();
 
   const onSubmit = async (formData: SignUpUser) => {
+    setFormError(null);
+    setIsSubmitting(true);
+
     const { error } = await signUp(formData);
-    if (error) Alert.alert(error.message);
+
+    if (error) {
+      setFormError(mapAuthError(error));
+    }
+
+    setIsSubmitting(false);
   };
 
   return (
