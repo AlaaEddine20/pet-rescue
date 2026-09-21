@@ -1,27 +1,11 @@
 import { SplashScreenController } from "@/components/SplashscreenController";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { GluestackUIProvider } from "@/ui/gluestack-ui-provider";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "../globals.css";
-import { useAuthContext } from "../hooks/useAuthContext";
-
-function RootNavigator() {
-  const { isLoggedIn } = useAuthContext();
-
-  return (
-    <Stack>
-      <Stack.Protected guard={isLoggedIn}>
-        <Stack.Screen name="(app)" options={{ headerShown: false }} />
-      </Stack.Protected>
-      <Stack.Protected guard={!isLoggedIn}>
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      </Stack.Protected>
-      <Stack.Screen name="+not-found" />
-    </Stack>
-  );
-}
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -39,8 +23,10 @@ export default function RootLayout() {
     <GluestackUIProvider mode="system">
       <AuthProvider>
         <SplashScreenController />
-        <RootNavigator />
-        <StatusBar style="auto" />
+        <SafeAreaProvider>
+          <Stack />
+          <StatusBar style="auto" />
+        </SafeAreaProvider>
       </AuthProvider>
     </GluestackUIProvider>
   );
