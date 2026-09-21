@@ -40,7 +40,7 @@ export function RegisterForm() {
         name="user_name"
         render={({
           field: { onChange, value, onBlur },
-          fieldState: { error, invalid },
+          fieldState: { error },
         }) => (
           <>
             <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
@@ -52,9 +52,7 @@ export function RegisterForm() {
                 onBlur={onBlur}
                 autoCapitalize="none"
                 className="font-pet-medium text-base text-foreground"
-                accessibilityLabel={
-                  error ? `User Name, ${error.message}` : "User Name"
-                }
+                accessibilityLabel={error && `User Name, ${error.message}`}
               />
             </Input>
             {error?.message && (
@@ -80,7 +78,7 @@ export function RegisterForm() {
                 onBlur={onBlur}
                 autoCapitalize="none"
                 className="font-pet-medium text-base text-foreground"
-                accessibilityLabel={error ? `Email, ${error.message}` : "Email"}
+                accessibilityLabel={error && `Email, ${error.message}`}
               />
             </Input>
             {error?.message && (
@@ -107,9 +105,7 @@ export function RegisterForm() {
                 onBlur={onBlur}
                 autoCapitalize="none"
                 className="font-pet-medium text-base text-foreground"
-                accessibilityLabel={
-                  error ? `Password, ${error.message}` : "Password"
-                }
+                accessibilityLabel={error && `Password, ${error.message}`}
               />
             </Input>
             {error?.message && (
@@ -137,9 +133,7 @@ export function RegisterForm() {
                 autoCapitalize="none"
                 className="font-pet-medium text-base text-foreground"
                 accessibilityLabel={
-                  error
-                    ? `Conferma password, ${error.message}`
-                    : "Conferma password"
+                  error && `Conferma password, ${error.message}`
                 }
               />
             </Input>

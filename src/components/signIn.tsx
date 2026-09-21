@@ -35,7 +35,10 @@ export function SignInForm() {
       <Controller
         control={control}
         name="email"
-        render={({ field: { onChange, value, onBlur } }) => (
+        render={({
+          field: { onChange, value, onBlur },
+          fieldState: { error },
+        }) => (
           <>
             <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
               <InputField
@@ -45,14 +48,12 @@ export function SignInForm() {
                 value={value}
                 onBlur={onBlur}
                 autoCapitalize="none"
-                accessibilityLabel="Email Input"
                 className="font-pet-medium text-base text-foreground"
+                accessibilityLabel={error && `Email, ${error.message}`}
               />
             </Input>
-            {errors.email?.message && (
-              <Text className="text-sm text-destructive">
-                {errors.email.message}
-              </Text>
+            {error?.message && (
+              <Text className="text-sm text-destructive">{error.message}</Text>
             )}
           </>
         )}
@@ -60,7 +61,10 @@ export function SignInForm() {
       <Controller
         control={control}
         name="password"
-        render={({ field: { onChange, value, onBlur } }) => (
+        render={({
+          field: { onChange, value, onBlur },
+          fieldState: { error },
+        }) => (
           <>
             <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
               <InputField
@@ -71,14 +75,12 @@ export function SignInForm() {
                 value={value}
                 onBlur={onBlur}
                 autoCapitalize="none"
-                accessibilityLabel="Password Input"
                 className="font-pet-medium text-base text-foreground"
+                accessibilityLabel={error && `Password, ${error.message}`}
               />
             </Input>
-            {errors.password?.message && (
-              <Text className="text-sm text-destructive">
-                {errors.password.message}
-              </Text>
+            {error?.message && (
+              <Text className="text-sm text-destructive">{error.message}</Text>
             )}
           </>
         )}
