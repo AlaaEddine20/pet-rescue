@@ -8,9 +8,10 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import "../globals.css";
 
-// app/_layout.tsx
 function RootNavigator() {
-  const { isLoggedIn } = useAuthContext();
+  const { isLoggedIn, isLoading } = useAuthContext();
+
+  if (isLoading) return null;
 
   return (
     <Stack>
