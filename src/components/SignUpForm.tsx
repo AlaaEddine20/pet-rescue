@@ -1,37 +1,66 @@
 import { useAuthContext } from "@/hooks/useAuthContext";
-import { LoginUserSchema } from "@/lib/validators";
-import { LoginUser } from "@/types/Auth";
+import { SignUpUserSchema } from "@/lib/validators";
+import { applyAuthError } from "@/mappers/authErrorMapper";
+import { SignUpUser } from "@/types/Auth";
 import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { ActivityIndicator, Text, View } from "react-native";
-import { applyAuthError } from "../../mappers/authErrorMapper";
 
-export function SignInForm() {
+const SignUpForm = () => {
   const {
     control,
     handleSubmit,
-    clearErrors,
     setError,
+    clearErrors,
     formState: { errors, isSubmitting },
-  } = useForm<LoginUser>({
-    resolver: zodResolver(LoginUserSchema),
+  } = useForm({
+    resolver: zodResolver(SignUpUserSchema),
     defaultValues: {
+      user_name: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
-  const { signIn } = useAuthContext();
 
-  const onSubmit = async (formData: LoginUser) => {
+  const { signUp } = useAuthContext();
+
+  const onSubmit = async (formData: SignUpUser) => {
     clearErrors("root");
-    const { error } = await signIn(formData);
+    const { error } = await signUp(formData);
     if (error) applyAuthError(error, setError);
   };
 
   return (
-    <View className="gap-3 w-full">
+    <View className="gap-3 w-full flex-1">
+      <Controller
+        control={control}
+        name="user_name"
+        render={({
+          field: { onChange, value, onBlur },
+          fieldState: { error },
+        }) => (
+          <>
+            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
+              <InputField
+                id="user_name-input"
+                onChangeText={onChange}
+                placeholder="Name"
+                value={value}
+                onBlur={onBlur}
+                autoCapitalize="none"
+                className="font-pet-medium text-base text-foreground"
+                accessibilityLabel={error && `User Name, ${error.message}`}
+              />
+            </Input>
+            {error?.message && (
+              <Text className="text-sm text-destructive">{error.message}</Text>
+            )}
+          </>
+        )}
+      />
       <Controller
         control={control}
         name="email"
@@ -85,7 +114,37 @@ export function SignInForm() {
           </>
         )}
       />
+      <Controller
+        control={control}
+        name="confirmPassword"
+        render={({
+          field: { onChange, value, onBlur },
+          fieldState: { error },
+        }) => (
+          <>
+            <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
+              <InputField
+                id="confirm-password-input"
+                onChangeText={onChange}
+                placeholder="Confirm Password"
+                secureTextEntry
+                value={value}
+                onBlur={onBlur}
+                autoCapitalize="none"
+                className="font-pet-medium text-base text-foreground"
+                accessibilityLabel={
+                  error && `Conferma password, ${error.message}`
+                }
+              />
+            </Input>
+            {error?.message && (
+              <Text className="text-sm text-destructive">{error.message}</Text>
+            )}
+          </>
+        )}
+      />
 
+      {/* Errore di form generico da server */}
       {errors.root?.message && (
         <View
           className="mt-2 rounded-lg bg-red-50 p-3"
@@ -102,18 +161,20 @@ export function SignInForm() {
         <Button
           className="mt-2 rounded-lg bg-blue-600 py-4"
           onPress={handleSubmit(onSubmit)}
-          accessibilityLabel="Sign in"
+          accessibilityLabel="Create account"
           disabled={isSubmitting}
         >
           {isSubmitting ? (
             <ActivityIndicator />
           ) : (
             <ButtonText className="font-pet-semibold text-white">
-              Sign In
+              Create Account
             </ButtonText>
           )}
         </Button>
       </View>
     </View>
   );
-}
+};
+
+export default SignUpForm;

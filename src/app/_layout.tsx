@@ -1,4 +1,4 @@
-import { SplashScreenController } from "@/app/components/SplashscreenController";
+import { SplashScreenController } from "@/components/SplashscreenController";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { GluestackUIProvider } from "@/ui/gluestack-ui-provider";
 import { useFonts } from "expo-font";
@@ -13,10 +13,10 @@ function RootNavigator() {
   return (
     <Stack>
       <Stack.Protected guard={isLoggedIn}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(app)" options={{ headerShown: false }} />
       </Stack.Protected>
       <Stack.Protected guard={!isLoggedIn}>
-        <Stack.Screen name="login" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
       </Stack.Protected>
       <Stack.Screen name="+not-found" />
     </Stack>

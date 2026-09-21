@@ -1,4 +1,4 @@
-import NoAuthScreen from "@/app/(app)/NoAuthScreen";
+import NoAuthScreen from "@/app/(auth)/NoAuthScreen";
 import { ScrollView } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import "../globals.css";
