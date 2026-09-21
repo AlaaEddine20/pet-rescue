@@ -2,7 +2,7 @@ import { Text, View } from "react-native";
 
 const HomeScreen = () => {
   return (
-    <View>
+    <View style={{ width: "100%", height: "100%", display: "flex" }}>
       <Text>Welcome home</Text>
     </View>
   );
