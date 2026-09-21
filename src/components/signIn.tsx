@@ -4,15 +4,17 @@ import { LoginUser } from "@/types/Auth";
 import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ActivityIndicator, Text, View } from "react-native";
+import { applyAuthError } from "../mappers/authErrorMapper";
 
 export function SignInForm() {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    clearErrors,
+    setError,
+    formState: { errors, isSubmitting },
   } = useForm<LoginUser>({
     resolver: zodResolver(LoginUserSchema),
     defaultValues: {
@@ -20,21 +22,12 @@ export function SignInForm() {
       password: "",
     },
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formError, setFormError] = useState<string | null>(null);
   const { signIn } = useAuthContext();
 
   const onSubmit = async (formData: LoginUser) => {
-    setFormError(null);
-    setIsSubmitting(true);
-
+    clearErrors("root");
     const { error } = await signIn(formData);
-
-    if (error) {
-      setFormError(error.message); // niente Alert con error.message raw
-    }
-
-    setIsSubmitting(false);
+    if (error) applyAuthError(error, setError);
   };
 
   return (

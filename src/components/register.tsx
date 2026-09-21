@@ -1,19 +1,20 @@
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { SignUpUserSchema } from "@/lib/validators";
-import { mapAuthError } from "@/mappers/authErrorMapper";
+import { applyAuthError } from "@/mappers/authErrorMapper";
 import { SignUpUser } from "@/types/Auth";
 import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 
 export function RegisterForm() {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    setError,
+    clearErrors,
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(SignUpUserSchema),
     defaultValues: {
@@ -23,22 +24,13 @@ export function RegisterForm() {
       confirmPassword: "",
     },
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formError, setFormError] = useState<string | null>("");
 
   const { signUp } = useAuthContext();
 
   const onSubmit = async (formData: SignUpUser) => {
-    setFormError(null);
-    setIsSubmitting(true);
-
+    clearErrors("root");
     const { error } = await signUp(formData);
-
-    if (error) {
-      setFormError(mapAuthError(error));
-    }
-
-    setIsSubmitting(false);
+    if (error) applyAuthError(error, setError);
   };
 
   return (
@@ -147,9 +139,13 @@ export function RegisterForm() {
           onPress={handleSubmit(onSubmit)}
           accessibilityLabel="Create account"
         >
-          <ButtonText className="font-pet-semibold text-white">
-            Create Account
-          </ButtonText>
+          {isSubmitting ? (
+            <ActivityIndicator />
+          ) : (
+            <ButtonText className="font-pet-semibold text-white">
+              Create Account
+            </ButtonText>
+          )}
         </Button>
       </View>
     </View>
