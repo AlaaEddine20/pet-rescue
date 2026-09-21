@@ -38,7 +38,10 @@ export function RegisterForm() {
       <Controller
         control={control}
         name="user_name"
-        render={({ field: { onChange, value, onBlur } }) => (
+        render={({
+          field: { onChange, value, onBlur },
+          fieldState: { error, invalid },
+        }) => (
           <>
             <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
               <InputField
@@ -49,12 +52,13 @@ export function RegisterForm() {
                 onBlur={onBlur}
                 autoCapitalize="none"
                 className="font-pet-medium text-base text-foreground"
+                accessibilityLabel={
+                  error ? `User Name, ${error.message}` : "User Name"
+                }
               />
             </Input>
-            {errors.user_name?.message && (
-              <Text className="text-sm text-destructive">
-                {errors.user_name.message}
-              </Text>
+            {error?.message && (
+              <Text className="text-sm text-destructive">{error.message}</Text>
             )}
           </>
         )}
@@ -62,7 +66,10 @@ export function RegisterForm() {
       <Controller
         control={control}
         name="email"
-        render={({ field: { onChange, value, onBlur } }) => (
+        render={({
+          field: { onChange, value, onBlur },
+          fieldState: { error },
+        }) => (
           <>
             <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
               <InputField
@@ -73,12 +80,11 @@ export function RegisterForm() {
                 onBlur={onBlur}
                 autoCapitalize="none"
                 className="font-pet-medium text-base text-foreground"
+                accessibilityLabel={error ? `Email, ${error.message}` : "Email"}
               />
             </Input>
-            {errors.email?.message && (
-              <Text className="text-sm text-destructive">
-                {errors.email.message}
-              </Text>
+            {error?.message && (
+              <Text className="text-sm text-destructive">{error.message}</Text>
             )}
           </>
         )}
@@ -86,7 +92,10 @@ export function RegisterForm() {
       <Controller
         control={control}
         name="password"
-        render={({ field: { onChange, value, onBlur } }) => (
+        render={({
+          field: { onChange, value, onBlur },
+          fieldState: { error },
+        }) => (
           <>
             <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
               <InputField
@@ -98,12 +107,13 @@ export function RegisterForm() {
                 onBlur={onBlur}
                 autoCapitalize="none"
                 className="font-pet-medium text-base text-foreground"
+                accessibilityLabel={
+                  error ? `Password, ${error.message}` : "Password"
+                }
               />
             </Input>
-            {errors.password?.message && (
-              <Text className="text-sm text-destructive">
-                {errors.password.message}
-              </Text>
+            {error?.message && (
+              <Text className="text-sm text-destructive">{error.message}</Text>
             )}
           </>
         )}
@@ -111,7 +121,10 @@ export function RegisterForm() {
       <Controller
         control={control}
         name="confirmPassword"
-        render={({ field: { onChange, value, onBlur } }) => (
+        render={({
+          field: { onChange, value, onBlur },
+          fieldState: { error },
+        }) => (
           <>
             <Input className="my-1 w-full rounded-lg border-0 bg-secondary p-3 shadow-sm">
               <InputField
@@ -123,21 +136,39 @@ export function RegisterForm() {
                 onBlur={onBlur}
                 autoCapitalize="none"
                 className="font-pet-medium text-base text-foreground"
+                accessibilityLabel={
+                  error
+                    ? `Conferma password, ${error.message}`
+                    : "Conferma password"
+                }
               />
             </Input>
-            {errors.confirmPassword?.message && (
-              <Text className="text-sm text-destructive">
-                {errors.confirmPassword.message}
-              </Text>
+            {error?.message && (
+              <Text className="text-sm text-destructive">{error.message}</Text>
             )}
           </>
         )}
       />
+
+      {/* Errore di form generico da server */}
+      {errors.root?.message && (
+        <View
+          className="mt-2 rounded-lg bg-red-50 p-3"
+          accessibilityRole="alert"
+          accessibilityLiveRegion="polite"
+        >
+          <Text className="text-sm text-destructive">
+            {errors.root.message}
+          </Text>
+        </View>
+      )}
+
       <View>
         <Button
           className="mt-2 rounded-lg bg-blue-600 py-4"
           onPress={handleSubmit(onSubmit)}
           accessibilityLabel="Create account"
+          disabled={isSubmitting}
         >
           {isSubmitting ? (
             <ActivityIndicator />
