@@ -1,7 +1,7 @@
 import { AuthContext } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { LoginUser, Profile, SignUpUser } from "@/types/Auth";
-import { Session, User } from "@supabase/supabase-js";
+import { AuthError, Session, User } from "@supabase/supabase-js";
 import {
   PropsWithChildren,
   useCallback,
@@ -81,13 +81,16 @@ export function AuthProvider({ children }: PropsWithChildren) {
     loadProfile(user.id);
   }, [user?.id, isAuthLoading, loadProfile]);
 
-  const signIn = useCallback(async (userData: LoginUser) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: userData.email,
-      password: userData.password,
-    });
-    return { error };
-  }, []);
+  const signIn = useCallback(
+    async (userData: LoginUser): Promise<{ error: AuthError | null }> => {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: userData.email,
+        password: userData.password,
+      });
+      return { error };
+    },
+    [],
+  );
 
   const signUp = useCallback(async (userData: SignUpUser) => {
     const { error } = await supabase.auth.signUp({
