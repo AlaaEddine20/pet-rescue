@@ -1,6 +1,6 @@
-import { SignInForm } from "@/components/SignIn";
-import { RegisterForm } from "@/components/SignUp";
-import { SegmentedToggle } from "@/components/ThemedSegmentedToggle";
+import { SignInForm } from "@/app/components/SignIn";
+import { RegisterForm } from "@/app/components/SignUp";
+import { SegmentedToggle } from "@/app/components/ThemedSegmentedToggle";
 import { LOGO_SOURCES } from "@/lib/constants";
 import { useState } from "react";
 import { Image, Text, useColorScheme, View } from "react-native";

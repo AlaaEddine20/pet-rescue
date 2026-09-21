@@ -6,7 +6,7 @@ import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { ActivityIndicator, Text, View } from "react-native";
-import { applyAuthError } from "../mappers/authErrorMapper";
+import { applyAuthError } from "../../mappers/authErrorMapper";
 
 export function SignInForm() {
   const {
@@ -85,6 +85,18 @@ export function SignInForm() {
           </>
         )}
       />
+
+      {errors.root?.message && (
+        <View
+          className="mt-2 rounded-lg bg-red-50 p-3"
+          accessibilityRole="alert"
+          accessibilityLiveRegion="polite"
+        >
+          <Text className="text-sm text-destructive">
+            {errors.root.message}
+          </Text>
+        </View>
+      )}
 
       <View>
         <Button

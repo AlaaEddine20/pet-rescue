@@ -1,4 +1,4 @@
-import { SplashScreenController } from "@/components/SplashscreenController";
+import { SplashScreenController } from "@/app/components/SplashscreenController";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { GluestackUIProvider } from "@/ui/gluestack-ui-provider";
 import { useFonts } from "expo-font";
