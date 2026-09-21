@@ -9,6 +9,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 function RootNavigator() {
   const { isLoggedIn } = useAuthContext();
+
   return (
     <Stack>
       <Stack.Protected guard={isLoggedIn}>
