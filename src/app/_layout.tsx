@@ -1,3 +1,4 @@
+import { ScreenContainer } from "@/components/ScreenContainer";
 import { SplashScreenController } from "@/components/SplashscreenController";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { AuthProvider } from "@/providers/AuthProvider";
@@ -5,13 +6,19 @@ import { GluestackUIProvider } from "@/ui/gluestack-ui-provider";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { ActivityIndicator } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import "../globals.css";
 
 function RootNavigator() {
   const { isLoggedIn, isLoading } = useAuthContext();
 
-  if (isLoading) return null;
+  if (isLoading)
+    return (
+      <ScreenContainer className="h-full w-full justify-center items-center">
+        <ActivityIndicator size={"large"} />
+      </ScreenContainer>
+    );
 
   return (
     <Stack>
@@ -38,8 +45,8 @@ export default function RootLayout() {
   return (
     <GluestackUIProvider mode="system">
       <AuthProvider>
-        <SplashScreenController />
         <SafeAreaProvider>
+          <SplashScreenController />
           <RootNavigator />
           <StatusBar style="auto" />
         </SafeAreaProvider>
