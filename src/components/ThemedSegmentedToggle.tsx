@@ -1,5 +1,4 @@
 import { AuthMode } from "@/types/Auth";
-import React from "react";
 import { Pressable, Text, View } from "react-native";
 
 export type SegmentedToggleOption = {
@@ -34,8 +33,8 @@ export function SegmentedToggle({
             <Text
               className={
                 isSelected
-                  ? "font-pet-bold text-sm text-foreground"
-                  : "font-pet-medium text-sm text-blue-600"
+                  ? "font-pet-bold text-md text-foreground"
+                  : "font-pet-medium text-md text-blue-600"
               }
             >
               {option.label}

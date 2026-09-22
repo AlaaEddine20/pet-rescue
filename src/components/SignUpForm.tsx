@@ -168,7 +168,7 @@ const SignUpForm = () => {
             <ActivityIndicator />
           ) : (
             <ButtonText className="font-pet-semibold text-white">
-              Create Account
+              Crea Account
             </ButtonText>
           )}
         </Button>

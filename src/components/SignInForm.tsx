@@ -109,7 +109,7 @@ const SignInForm = () => {
             <ActivityIndicator />
           ) : (
             <ButtonText className="font-pet-semibold text-white">
-              Sign In
+              Login
             </ButtonText>
           )}
         </Button>
