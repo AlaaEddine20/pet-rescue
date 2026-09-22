@@ -1,10 +1,11 @@
-import { Text, View } from "react-native";
+import { ScreenContainer } from "@/components/ScreenContainer";
+import { Text } from "react-native";
 
 const HomeScreen = () => {
   return (
-    <View style={{ width: "100%", height: "100%", display: "flex" }}>
+    <ScreenContainer>
       <Text>Welcome home</Text>
-    </View>
+    </ScreenContainer>
   );
 };
 
