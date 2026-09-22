@@ -6,7 +6,7 @@ import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 
 const SignUpForm = () => {
   const {
@@ -34,7 +34,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <ScrollView className="gap-3 w-full h-full pb-6">
+    <View className="gap-3 pb-6">
       <Controller
         control={control}
         name="user_name"
@@ -173,7 +173,7 @@ const SignUpForm = () => {
           )}
         </Button>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 

@@ -26,12 +26,12 @@ const NoAuthScreen = () => {
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        <ScreenContainer>
-          <ScrollView
-            style={{ flex: 1 }}
-            contentContainerStyle={{ flexGrow: 1 }}
-            keyboardShouldPersistTaps="handled"
-          >
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+        >
+          <ScreenContainer>
             <View className="self-center">
               <Image
                 source={
@@ -42,13 +42,15 @@ const NoAuthScreen = () => {
                 resizeMode="contain"
                 style={{
                   width: 213,
-                  height: 273,
+                  height: 213,
                 }}
               />
             </View>
+
             <Text className="mb-5 text-center font-pet-medium text-base leading-5 text-muted-foreground">
               Find and rescue abandoned pets near you
             </Text>
+
             <View className="mt-5 w-full justify-center">
               <SegmentedToggle
                 value={mode}
@@ -59,11 +61,12 @@ const NoAuthScreen = () => {
                 ]}
               />
             </View>
-            <View className="mt-5 w-full justify-center">
+
+            <View className="mt-5 w-full">
               {mode === "signin" ? <SignInForm /> : <SignUpForm />}
             </View>
-          </ScrollView>
-        </ScreenContainer>
+          </ScreenContainer>
+        </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
