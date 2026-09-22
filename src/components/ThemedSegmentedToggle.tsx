@@ -26,7 +26,7 @@ export function SegmentedToggle({
           <Pressable
             key={option.value}
             onPress={() => onChange(option.value)}
-            className={`flex-1 items-center justify-center rounded-full py-[10px] ${
+            className={`flex-1 items-center justify-center rounded-full py-[10px] will-change-variable ${
               isSelected ? "bg-background shadow-sm" : ""
             }`}
           >
