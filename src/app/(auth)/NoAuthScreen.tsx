@@ -3,59 +3,68 @@ import SignInForm from "@/components/SignInForm";
 import SignUpForm from "@/components/SignUpForm";
 import { SegmentedToggle } from "@/components/ThemedSegmentedToggle";
 import { LOGO_SOURCES } from "@/lib/constants";
+import { AuthMode } from "@/types/Auth";
 import { useState } from "react";
-import { Image, Text, useColorScheme, View } from "react-native";
-import Animated from "react-native-reanimated";
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  useColorScheme,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const NoAuthScreen = () => {
   const colorScheme = useColorScheme();
-  const [mode, setMode] = useState<"signin" | "register">("signin");
-
-  const handleLoginOrRegister = (value: string) => {
-    setMode(value === "signin" ? "signin" : "register");
-  };
+  const [mode, setMode] = useState<AuthMode>("signin");
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScreenContainer>
-        <View className="self-center">
-          <Animated.View>
-            <Image
-              source={
-                colorScheme === "dark" ? LOGO_SOURCES.dark : LOGO_SOURCES.light
-              }
-              resizeMode="contain"
-              style={{
-                width: 300,
-                height: 300,
-              }}
-            />
-          </Animated.View>
-        </View>
-        <Animated.View>
-          <Text className="mb-5 text-center font-pet-medium text-base leading-5 text-muted-foreground">
-            Find and rescue abandoned pets near you
-          </Text>
-        </Animated.View>
-        <View className="mt-5 w-full justify-center">
-          <Animated.View>
-            <SegmentedToggle
-              value={mode}
-              onChange={handleLoginOrRegister}
-              options={[
-                { label: "Sign in", value: "signin" },
-                { label: "Register", value: "register" },
-              ]}
-            />
-          </Animated.View>
-        </View>
-        <View className="mt-5 w-full justify-center">
-          <Animated.View>
-            {mode === "signin" ? <SignInForm /> : <SignUpForm />}
-          </Animated.View>
-        </View>
-      </ScreenContainer>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+      >
+        <ScreenContainer>
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{ flexGrow: 1 }}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View className="self-center">
+              <Image
+                source={
+                  colorScheme === "dark"
+                    ? LOGO_SOURCES.dark
+                    : LOGO_SOURCES.light
+                }
+                resizeMode="contain"
+                style={{
+                  width: 213,
+                  height: 273,
+                }}
+              />
+            </View>
+            <Text className="mb-5 text-center font-pet-medium text-base leading-5 text-muted-foreground">
+              Find and rescue abandoned pets near you
+            </Text>
+            <View className="mt-5 w-full justify-center">
+              <SegmentedToggle
+                value={mode}
+                onChange={setMode}
+                options={[
+                  { label: "Sign in", value: "signin" },
+                  { label: "Sign up", value: "signup" },
+                ]}
+              />
+            </View>
+            <View className="mt-5 w-full justify-center">
+              {mode === "signin" ? <SignInForm /> : <SignUpForm />}
+            </View>
+          </ScrollView>
+        </ScreenContainer>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

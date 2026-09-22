@@ -1,15 +1,16 @@
+import { AuthMode } from "@/types/Auth";
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 
 export type SegmentedToggleOption = {
   label: string;
-  value: string;
+  value: AuthMode;
 };
 
 type SegmentedToggleProps = {
   options: [SegmentedToggleOption, SegmentedToggleOption];
   value: string;
-  onChange: (value: string) => void;
+  onChange: (value: AuthMode) => void;
 };
 
 export function SegmentedToggle({

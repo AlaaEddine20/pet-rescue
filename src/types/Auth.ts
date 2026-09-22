@@ -10,3 +10,5 @@ export type Profile = {
   role: string;
   avatar_url: string;
 };
+
+export type AuthMode = "signin" | "signup";
