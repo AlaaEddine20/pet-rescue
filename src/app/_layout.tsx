@@ -43,12 +43,12 @@ export default function RootLayout() {
   if (!loaded) return null;
 
   return (
-    <GluestackUIProvider mode="system">
+    <GluestackUIProvider>
       <AuthProvider>
         <SafeAreaProvider>
           <SplashScreenController />
           <RootNavigator />
-          <StatusBar style="auto" />
+          <StatusBar style="dark" />
         </SafeAreaProvider>
       </AuthProvider>
     </GluestackUIProvider>

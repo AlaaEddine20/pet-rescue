@@ -11,13 +11,11 @@ import {
   Platform,
   ScrollView,
   Text,
-  useColorScheme,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const NoAuthScreen = () => {
-  const colorScheme = useColorScheme();
   const [mode, setMode] = useState<AuthMode>("signin");
 
   return (
@@ -34,11 +32,7 @@ const NoAuthScreen = () => {
           <ScreenContainer>
             <View className="self-center">
               <Image
-                source={
-                  colorScheme === "dark"
-                    ? LOGO_SOURCES.dark
-                    : LOGO_SOURCES.light
-                }
+                source={LOGO_SOURCES.light}
                 resizeMode="contain"
                 style={{
                   width: 213,
@@ -47,8 +41,10 @@ const NoAuthScreen = () => {
               />
             </View>
 
-            <Text className="mb-5 text-center font-pet-medium text-base leading-5 text-muted-foreground">
-              Find and rescue abandoned pets near you
+            <Text className="my-4 text-center font-pet-medium leading-normal text-base leading-5 text-muted-foreground">
+              Hai trovato un cane o un gatto disperso o abbandonato? Segnalalo
+              con la sua posizione e aiuta volontari e associazioni a metterlo
+              in salvo.
             </Text>
 
             <View className="mt-5 w-full justify-center">
@@ -56,8 +52,8 @@ const NoAuthScreen = () => {
                 value={mode}
                 onChange={setMode}
                 options={[
-                  { label: "Sign in", value: "signin" },
-                  { label: "Sign up", value: "signup" },
+                  { label: "Login", value: "signin" },
+                  { label: "Registrati", value: "signup" },
                 ]}
               />
             </View>
