@@ -47,7 +47,7 @@ const SignUpForm = () => {
               <InputField
                 id="user_name-input"
                 onChangeText={onChange}
-                placeholder="Name"
+                placeholder="Nome"
                 value={value}
                 onBlur={onBlur}
                 autoCapitalize="none"
@@ -126,7 +126,7 @@ const SignUpForm = () => {
               <InputField
                 id="confirm-password-input"
                 onChangeText={onChange}
-                placeholder="Confirm Password"
+                placeholder="Conferma Password"
                 secureTextEntry
                 value={value}
                 onBlur={onBlur}
