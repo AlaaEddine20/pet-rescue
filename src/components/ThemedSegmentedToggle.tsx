@@ -12,11 +12,11 @@ type SegmentedToggleProps = {
   onChange: (value: AuthMode) => void;
 };
 
-export function SegmentedToggle({
+const SegmentedToggle = ({
   options,
   value,
   onChange,
-}: SegmentedToggleProps) {
+}: SegmentedToggleProps) => {
   return (
     <View className="flex-row self-stretch rounded-full bg-secondary p-1">
       {options.map((option) => {
@@ -44,4 +44,6 @@ export function SegmentedToggle({
       })}
     </View>
   );
-}
+};
+
+export default SegmentedToggle;

@@ -32,7 +32,7 @@ function RootNavigator() {
   );
 }
 
-export default function RootLayout() {
+const RootLayout = () => {
   const [loaded] = useFonts({
     "NunitoSans-Regular": require("../../assets/fonts/NunitoSans-Regular.ttf"),
     "NunitoSans-Medium": require("../../assets/fonts/NunitoSans-Medium.ttf"),
@@ -53,4 +53,6 @@ export default function RootLayout() {
       </AuthProvider>
     </GluestackUIProvider>
   );
-}
+};
+
+export default RootLayout;
