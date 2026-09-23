@@ -1,7 +1,7 @@
 import { View, type ViewProps } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export function ScreenContainer({ children, style, ...props }: ViewProps) {
+const ScreenContainer = ({ children, style, ...props }: ViewProps) => {
   const insets = useSafeAreaInsets();
 
   return (
@@ -16,4 +16,6 @@ export function ScreenContainer({ children, style, ...props }: ViewProps) {
       </View>
     </View>
   );
-}
+};
+
+export default ScreenContainer;

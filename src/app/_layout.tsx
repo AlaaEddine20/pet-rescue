@@ -1,4 +1,4 @@
-import { ScreenContainer } from "@/components/ScreenContainer";
+import ScreenContainer from "@/components/ScreenContainer";
 import { SplashScreenController } from "@/components/SplashscreenController";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { AuthProvider } from "@/providers/AuthProvider";

@@ -1,4 +1,4 @@
-import { ScreenContainer } from "@/components/ScreenContainer";
+import ScreenContainer from "@/components/ScreenContainer";
 import SignInForm from "@/components/SignInForm";
 import SignUpForm from "@/components/SignUpForm";
 import { SegmentedToggle } from "@/components/ThemedSegmentedToggle";
