@@ -6,3 +6,14 @@ export type Report = {
   createdAt: string; // ISO date string
   status: ReportStatus;
 };
+
+export type AnimalType = "dog" | "cat" | "other";
+
+export type NewReport = {
+  animalType: AnimalType;
+  description: string;
+  photo: { uri: string; base64: string };
+  latitude: number;
+  longitude: number;
+  addressLabel?: string | null;
+};

@@ -22,3 +22,12 @@ export const LoginUserSchema = z.object({
     .string()
     .min(8, { message: "Password must be at least 8 characters long" }),
 });
+
+export const NewReportSchema = z.object({
+  animalType: z.enum(["dog", "cat", "other"]),
+  description: z.string().min(10, {
+    message: "Aggiungi qualche dettaglio in più (almeno 10 caratteri).",
+  }),
+});
+
+export type NewReportFormValues = z.infer<typeof NewReportSchema>;
