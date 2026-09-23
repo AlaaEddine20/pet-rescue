@@ -7,6 +7,7 @@ const ScreenContainer = ({ children, style, ...props }: ViewProps) => {
   return (
     <View
       style={{ flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom }}
+      className=" bg-background"
     >
       <View
         style={[{ flex: 1, paddingHorizontal: 16, paddingVertical: 8 }, style]}
