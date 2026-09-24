@@ -1,22 +1,21 @@
-import { AuthMode } from "@/types/Auth";
 import { Pressable, Text, View } from "react-native";
 
-export type SegmentedToggleOption = {
+export type SegmentedToggleOption<T extends string> = {
   label: string;
-  value: AuthMode;
+  value: T;
 };
 
-type SegmentedToggleProps = {
-  options: [SegmentedToggleOption, SegmentedToggleOption];
-  value: string;
-  onChange: (value: AuthMode) => void;
+type SegmentedToggleProps<T extends string> = {
+  options: SegmentedToggleOption<T>[];
+  value: T;
+  onChange: (value: T) => void;
 };
 
-const SegmentedToggle = ({
+export function SegmentedToggle<T extends string>({
   options,
   value,
   onChange,
-}: SegmentedToggleProps) => {
+}: SegmentedToggleProps<T>) {
   return (
     <View className="flex-row self-stretch rounded-full bg-secondary p-1">
       {options.map((option) => {
@@ -44,6 +43,4 @@ const SegmentedToggle = ({
       })}
     </View>
   );
-};
-
-export default SegmentedToggle;
+}
