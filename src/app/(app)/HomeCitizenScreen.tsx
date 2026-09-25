@@ -3,28 +3,14 @@ import MyReportsList from "@/components/MyReportList";
 import ReportCtaCard from "@/components/ReportCtaCard";
 import ScreenContainer from "@/components/ScreenContainer";
 import { useAuthContext } from "@/hooks/useAuthContext";
-import { Report } from "@/types/ReportType";
+import { useMyReports } from "@/hooks/useReports";
 import { useRouter } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 
 const HomeScreen = () => {
   const { profile } = useAuthContext();
+  const { data: reports, isLoading, isError } = useMyReports();
   const router = useRouter();
-
-  const MOCK_REPORTS: Report[] = [
-    {
-      id: "1",
-      title: "Gatto vicino al parcheggio",
-      createdAt: new Date(Date.now() - 86_400_000).toISOString(),
-      status: "pending",
-    },
-    {
-      id: "2",
-      title: "Cane senza guinzaglio",
-      createdAt: new Date(Date.now() - 86_400_000 * 3).toISOString(),
-      status: "rescued",
-    },
-  ];
 
   return (
     <ScreenContainer>
@@ -40,7 +26,7 @@ const HomeScreen = () => {
           <Text className="font-pet-semibold text-base text-foreground">
             Le tue segnalazioni
           </Text>
-          <MyReportsList reports={MOCK_REPORTS} />
+          <MyReportsList reports={reports ?? []} />
         </View>
       </ScrollView>
     </ScreenContainer>
