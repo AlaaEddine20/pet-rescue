@@ -61,8 +61,6 @@ export function PhotoPicker({ photo, onPhotoSelected }: PhotoPickerProps) {
     ]);
   };
 
-  console.log(photo);
-
   return (
     <Pressable
       onPress={handlePress}

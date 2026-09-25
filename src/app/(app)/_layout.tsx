@@ -4,7 +4,11 @@ const AppLayout = () => {
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="HomeScreen" options={{ headerShown: false }} />
+      <Stack.Screen name="HomeCitizenScreen" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="report/new"
+        options={{ presentation: "modal", title: "Nuova segnalazione" }}
+      />
     </Stack>
   );
 };

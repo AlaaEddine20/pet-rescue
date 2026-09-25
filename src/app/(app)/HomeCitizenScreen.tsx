@@ -4,12 +4,12 @@ import ReportCtaCard from "@/components/ReportCtaCard";
 import ScreenContainer from "@/components/ScreenContainer";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { Report } from "@/types/Report";
+import { useRouter } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 
 const HomeScreen = () => {
   const { profile } = useAuthContext();
-  // to be used for ReportCtaCard onPress={() => router.push("/report/new")}
-  /* const router = useRouter(); */
+  const router = useRouter();
 
   const MOCK_REPORTS: Report[] = [
     {
@@ -35,7 +35,7 @@ const HomeScreen = () => {
             {profile?.user_name ? `Ciao, ${profile.user_name}` : "Ciao!"}
           </Text>
         </View>
-        <ReportCtaCard onPress={() => {}} />
+        <ReportCtaCard onPress={() => router.push("/(app)/report/new")} />
         <View className="gap-3">
           <Text className="font-pet-semibold text-base text-foreground">
             Le tue segnalazioni
