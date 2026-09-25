@@ -3,7 +3,7 @@ import MyReportsList from "@/components/MyReportList";
 import ReportCtaCard from "@/components/ReportCtaCard";
 import ScreenContainer from "@/components/ScreenContainer";
 import { useAuthContext } from "@/hooks/useAuthContext";
-import { Report } from "@/types/Report";
+import { Report } from "@/types/ReportType";
 import { useRouter } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 

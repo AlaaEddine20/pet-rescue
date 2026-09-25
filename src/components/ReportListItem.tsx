@@ -1,4 +1,4 @@
-import { Report } from "@/types/Report";
+import { Report } from "@/types/ReportType";
 import { PawPrint } from "lucide-react-native";
 import { Text, View } from "react-native";
 import ReportStatusBadge from "./ReportStatusBadge";

@@ -1,4 +1,4 @@
-import { Report } from "@/types/Report";
+import { Report } from "@/types/ReportType";
 import { FlatList, Text, View } from "react-native";
 import ReportListItem from "./ReportListItem";
 

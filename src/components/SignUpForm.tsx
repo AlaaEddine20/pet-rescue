@@ -1,7 +1,7 @@
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { SignUpUserSchema } from "@/lib/validators";
 import { applyAuthError } from "@/mappers/authErrorMapper";
-import { SignUpUser } from "@/types/Auth";
+import { SignUpUser } from "@/types/AuthType";
 import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";

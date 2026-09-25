@@ -1,4 +1,4 @@
-import type { LoginUser, Profile, SignUpUser } from "@/types/Auth";
+import type { LoginUser, Profile, SignUpUser } from "@/types/AuthType";
 import type { AuthError, Session, User } from "@supabase/supabase-js";
 import { createContext } from "react";
 

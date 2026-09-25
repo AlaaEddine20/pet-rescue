@@ -1,6 +1,6 @@
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { LoginUserSchema } from "@/lib/validators";
-import { LoginUser } from "@/types/Auth";
+import { LoginUser } from "@/types/AuthType";
 import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";

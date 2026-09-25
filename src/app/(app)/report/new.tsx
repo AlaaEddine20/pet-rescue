@@ -5,7 +5,7 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 import { useCurrentLocation } from "@/hooks/useCurrentLocation";
 import { NewReportFormValues, NewReportSchema } from "@/lib/validators";
 import { createReport } from "@/services/report";
-import { AnimalType } from "@/types/Report";
+import { AnimalType } from "@/types/ReportType";
 import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";

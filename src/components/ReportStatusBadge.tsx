@@ -1,4 +1,4 @@
-import { ReportStatus } from "@/types/Report";
+import { ReportStatus } from "@/types/ReportType";
 import { Text, View } from "react-native";
 
 const STATUS_CONFIG: Record<

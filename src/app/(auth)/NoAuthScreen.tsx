@@ -3,7 +3,7 @@ import SignInForm from "@/components/SignInForm";
 import SignUpForm from "@/components/SignUpForm";
 import { SegmentedToggle } from "@/components/ThemedSegmentedToggle";
 import { LOGO_SOURCES } from "@/lib/constants";
-import { AuthMode } from "@/types/Auth";
+import { AuthMode } from "@/types/AuthType";
 import { useState } from "react";
 import {
   Image,
