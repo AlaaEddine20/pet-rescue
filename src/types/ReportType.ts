@@ -10,7 +10,6 @@ export type Report = {
 export type AnimalType = "dog" | "cat" | "other";
 
 export type NewReport = {
-  reporter_id: string;
   animalType: AnimalType;
   description: string;
   photo: { uri: string; base64: string };

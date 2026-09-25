@@ -5,10 +5,11 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 import { useCurrentLocation } from "@/hooks/useCurrentLocation";
 import { NewReportFormValues, NewReportSchema } from "@/lib/validators";
 import { createReport } from "@/services/report";
-import { AnimalType } from "@/types/ReportType";
+import { AnimalType, NewReport } from "@/types/ReportType";
 import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { QueryClient, useMutation } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -24,12 +25,12 @@ import {
 export default function NewReportScreen() {
   const router = useRouter();
   const { user } = useAuthContext();
+  const queryClient = new QueryClient();
   const { location, isLocationLoading, locationError, fetchLocation } =
     useCurrentLocation();
   const [photo, setPhoto] = useState<{ uri: string; base64: string } | null>(
     null,
   );
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     control,
@@ -39,6 +40,24 @@ export default function NewReportScreen() {
   } = useForm<NewReportFormValues>({
     resolver: zodResolver(NewReportSchema),
     defaultValues: { animalType: "dog", description: "" },
+  });
+
+  const { mutate: submitReport, isPending: isSubmitting } = useMutation({
+    mutationFn: (report: NewReport) => createReport(user!.id, report),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["reports", "mine", user?.id],
+      });
+      Alert.alert("Segnalazione inviata", "Grazie per il tuo aiuto!");
+      router.back();
+    },
+    onError: (err) => {
+      console.log(err);
+      setError("root", {
+        type: "manual",
+        message: "Invio non riuscito. Riprova.",
+      });
+    },
   });
 
   const onSubmit = async (values: NewReportFormValues) => {
@@ -56,29 +75,15 @@ export default function NewReportScreen() {
       });
       return;
     }
-    if (!user) return;
 
-    setIsSubmitting(true);
-    try {
-      await createReport(user.id, {
-        reporter_id: user.id,
-        animalType: values.animalType as AnimalType,
-        description: values.description,
-        photo,
-        latitude: location.latitude,
-        longitude: location.longitude,
-        addressLabel: location.addressLabel,
-      });
-      Alert.alert("Segnalazione inviata", "Grazie per il tuo aiuto!");
-      router.back();
-    } catch (err) {
-      setError("root", {
-        type: "manual",
-        message: "Invio non riuscito. Riprova.",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    submitReport({
+      animalType: values.animalType as AnimalType,
+      description: values.description,
+      photo,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      addressLabel: location.addressLabel,
+    });
   };
 
   return (

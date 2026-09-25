@@ -1,3 +1,4 @@
+import { useAuthContext } from "@/hooks/useAuthContext";
 import { supabase } from "@/lib/supabase";
 import { NewReport, Report } from "@/types/ReportType";
 import { decode } from "base64-arraybuffer";
@@ -25,9 +26,10 @@ export const uploadReportPhoto = async (
 
 export const createReport = async (reporterId: string, report: NewReport) => {
   const photoUrl = await uploadReportPhoto(reporterId, report.photo);
+  const { user } = useAuthContext();
 
   const { error } = await supabase.from("reports").insert({
-    reporter_id: reporterId,
+    reporter_id: user?.id,
     animal_type: report.animalType,
     description: report.description,
     photo_url: photoUrl,
