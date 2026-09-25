@@ -3,6 +3,7 @@ import { SplashScreenController } from "@/components/SplashscreenController";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { GluestackUIProvider } from "@/ui/gluestack-ui-provider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -40,17 +41,21 @@ const RootLayout = () => {
     "NunitoSans-Bold": require("../../assets/fonts/NunitoSans-Bold.ttf"),
   });
 
+  const queryClient = new QueryClient();
+
   if (!loaded) return null;
 
   return (
     <GluestackUIProvider>
-      <AuthProvider>
-        <SafeAreaProvider>
-          <SplashScreenController />
-          <RootNavigator />
-          <StatusBar style="dark" />
-        </SafeAreaProvider>
-      </AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <SafeAreaProvider>
+            <SplashScreenController />
+            <RootNavigator />
+            <StatusBar style="dark" />
+          </SafeAreaProvider>
+        </AuthProvider>
+      </QueryClientProvider>
     </GluestackUIProvider>
   );
 };
