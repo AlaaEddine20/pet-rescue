@@ -5,12 +5,25 @@ import ScreenContainer from "@/components/ScreenContainer";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { useMyReports } from "@/hooks/useReports";
 import { useRouter } from "expo-router";
-import { ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 
 const HomeScreen = () => {
   const { profile } = useAuthContext();
   const { data: reports, isLoading, isError } = useMyReports();
   const router = useRouter();
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  if (isError) {
+    return (
+      <Text>
+        C'è stato un errore durante il caricamento delle tue segnalazioni.
+        Riprova.
+      </Text>
+    );
+  }
 
   return (
     <ScreenContainer>
