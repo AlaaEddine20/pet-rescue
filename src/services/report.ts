@@ -1,8 +1,11 @@
 import { supabase } from "@/lib/supabase";
-import { NewReport } from "@/types/Report";
+import { NewReport, Report } from "@/types/ReportType";
 import { decode } from "base64-arraybuffer";
 
-async function uploadReportPhoto(userId: string, photo: NewReport["photo"]) {
+export const uploadReportPhoto = async (
+  userId: string,
+  photo: NewReport["photo"],
+) => {
   const fileExt = photo.uri.split(".").pop()?.toLowerCase() ?? "jpg";
   const filePath = `${userId}/${Date.now()}.${fileExt}`;
 
@@ -18,9 +21,9 @@ async function uploadReportPhoto(userId: string, photo: NewReport["photo"]) {
     .from("report-photos")
     .getPublicUrl(filePath);
   return data.publicUrl;
-}
+};
 
-export async function createReport(reporterId: string, report: NewReport) {
+export const createReport = async (reporterId: string, report: NewReport) => {
   const photoUrl = await uploadReportPhoto(reporterId, report.photo);
 
   const { error } = await supabase.from("reports").insert({
@@ -34,4 +37,21 @@ export async function createReport(reporterId: string, report: NewReport) {
   });
 
   if (error) throw error;
-}
+};
+
+export const getMyReports = async (reporterId: string): Promise<Report[]> => {
+  const { data, error } = await supabase
+    .from("reports")
+    .select("id, description, status, created_at")
+    .eq("reporter_id", reporterId)
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+
+  return data.map((row) => ({
+    id: row.id,
+    title: row.description,
+    createdAt: row.created_at,
+    status: row.status,
+  }));
+};
