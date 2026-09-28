@@ -1,0 +1,144 @@
+{
+  "common": {
+    "appName": "PetRescue",
+    "email": "Email",
+    "password": "Password",
+    "cancel": "Annulla"
+  },
+  "reportCtaCard": {
+    "title": "Hai visto un animale in difficoltà?",
+    "subtitle": "Foto, descrizione e posizione: bastano 30 secondi.",
+    "cta": {
+      "reportNow": "Segnala ora"
+    }
+  },
+  "signInForm": {
+    "cta": {
+      "submit": "Accedi"
+    },
+    "a11y": {
+      "submit": "Accedi",
+      "emailWithError": "Email, {error}",
+      "passwordWithError": "Password, {error}"
+    }
+  },
+  "signUpForm": {
+    "placeholders": {
+      "name": "Nome",
+      "confirmPassword": "Conferma Password"
+    },
+    "cta": {
+      "submit": "Crea Account"
+    },
+    "a11y": {
+      "submit": "Crea account",
+      "nameWithError": "User Name, {error}",
+      "emailWithError": "Email, {error}",
+      "passwordWithError": "Password, {error}",
+      "confirmPasswordWithError": "Conferma password, {error}"
+    }
+  },
+  "homeScreen": {
+    "loadError": "C'è stato un errore durante il caricamento delle tue segnalazioni. Riprova.",
+    "greeting": "Ciao, {name}",
+    "greetingFallback": "Ciao!",
+    "yourReports": "Le tue segnalazioni"
+  },
+  "newReportScreen": {
+    "title": "Nuova segnalazione",
+    "alerts": {
+      "submitSuccessTitle": "Segnalazione inviata",
+      "submitSuccessMessage": "Grazie per il tuo aiuto!"
+    },
+    "errors": {
+      "submitFailed": "Invio non riuscito. Riprova.",
+      "photoRequired": "Aggiungi una foto prima di inviare.",
+      "locationRequired": "Rileva la posizione prima di inviare."
+    },
+    "animalType": {
+      "dog": "Cane",
+      "cat": "Gatto",
+      "other": "Altro"
+    },
+    "placeholders": {
+      "description": "Descrivi cosa hai visto (dove, condizioni dell'animale...)"
+    },
+    "cta": {
+      "submit": "Invia segnalazione",
+      "submitting": "Invio in corso..."
+    }
+  },
+  "photoPicker": {
+    "alerts": {
+      "title": "Aggiungi una foto",
+      "takePhoto": "Scatta foto",
+      "chooseFromGallery": "Scegli dalla galleria"
+    },
+    "empty": {
+      "addPhoto": "Aggiungi una foto"
+    },
+    "a11y": {
+      "addPhoto": "Aggiungi foto"
+    }
+  },
+  "locationField": {
+    "detectMyLocation": "Rileva la mia posizione",
+    "update": "Aggiorna",
+    "errors": {
+      "permissionDenied": "Permesso posizione negato. Attivalo dalle impostazioni per continuare.",
+      "fetchFailed": "Non riesco a rilevare la posizione. Riprova."
+    }
+  },
+  "reportListItem": {
+    "relative": {
+      "today": "Oggi",
+      "yesterday": "Ieri",
+      "daysAgo": "{days} giorni fa"
+    }
+  },
+  "myReportsList": {
+    "empty": {
+      "title": "Nessuna segnalazione ancora",
+      "body": "Le segnalazioni che invii appariranno qui."
+    }
+  },
+  "reportStatusBadge": {
+    "status": {
+      "pending": "In attesa",
+      "inProgress": "In carico",
+      "rescued": "Salvato"
+    }
+  },
+  "appHeader": {
+    "a11y": {
+      "notifications": "Notifiche"
+    }
+  },
+  "noAuthScreen": {
+    "intro": "Hai trovato un cane o un gatto disperso o abbandonato? Segnalalo con la sua posizione e aiuta volontari e associazioni a metterlo in salvo.",
+    "tabs": {
+      "login": "Login",
+      "signup": "Registrati"
+    }
+  },
+  "authErrors": {
+    "emailAlreadyExists": "Esiste già un account con questa email.",
+    "emailAddressInvalid": "Questo indirizzo email non è supportato.",
+    "emailNotConfirmed": "Conferma la tua email prima di accedere.",
+    "weakPassword": "La password non è sufficientemente sicura.",
+    "invalidCredentials": "Email o password non corretti.",
+    "tooManyAttempts": "Troppi tentativi. Riprova tra qualche minuto.",
+    "userBanned": "Questo account è stato temporaneamente sospeso.",
+    "signupDisabled": "La registrazione non è al momento disponibile.",
+    "networkError": "Problema di connessione. Controlla la rete e riprova.",
+    "genericError": "Si è verificato un errore. Riprova più tardi."
+  },
+  "validation": {
+    "invalidName": "Invalid name",
+    "invalidEmail": "Invalid email address",
+    "passwordTooShort": "Password must be at least 8 characters long",
+    "passwordConfirmationNotCorrect": "Password confirmation is not correct",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "reportDescriptionTooShort": "Aggiungi qualche dettaglio in più (almeno 10 caratteri)."
+  }
+}
