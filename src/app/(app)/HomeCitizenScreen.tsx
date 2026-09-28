@@ -4,6 +4,7 @@ import ReportCtaCard from "@/components/ReportCtaCard";
 import ScreenContainer from "@/components/ScreenContainer";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { useMyReports } from "@/hooks/useReports";
+import { format, labels } from "@/locales";
 import { useRouter } from "expo-router";
 import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 
@@ -17,12 +18,7 @@ const HomeScreen = () => {
   }
 
   if (isError) {
-    return (
-      <Text>
-        C'è stato un errore durante il caricamento delle tue segnalazioni.
-        Riprova.
-      </Text>
-    );
+    return <Text>{labels.homeScreen.loadError}</Text>;
   }
 
   return (
@@ -31,13 +27,17 @@ const HomeScreen = () => {
         <AppHeader />
         <View>
           <Text className="text-lg text-muted-foreground">
-            {profile?.user_name ? `Ciao, ${profile.user_name}` : "Ciao!"}
+            {profile?.user_name
+              ? format(labels.homeScreen.greeting, {
+                  name: profile.user_name,
+                })
+              : labels.homeScreen.greetingFallback}
           </Text>
         </View>
         <ReportCtaCard onPress={() => router.push("/(app)/report/new")} />
         <View className="gap-3">
           <Text className="font-pet-semibold text-base text-foreground">
-            Le tue segnalazioni
+            {labels.homeScreen.yourReports}
           </Text>
           <MyReportsList reports={reports ?? []} />
         </View>

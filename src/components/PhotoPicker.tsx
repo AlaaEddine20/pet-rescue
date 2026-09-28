@@ -1,3 +1,4 @@
+import { labels } from "@/locales";
 import { Icon } from "@/ui/icon";
 import * as ImagePicker from "expo-image-picker";
 import { Camera } from "lucide-react-native";
@@ -42,22 +43,22 @@ async function pickFromGallery(): Promise<Photo | null> {
 
 export function PhotoPicker({ photo, onPhotoSelected }: PhotoPickerProps) {
   const handlePress = () => {
-    Alert.alert("Aggiungi una foto", undefined, [
+    Alert.alert(labels.photoPicker.alerts.title, undefined, [
       {
-        text: "Scatta foto",
+        text: labels.photoPicker.alerts.takePhoto,
         onPress: async () => {
           const result = await pickFromCamera();
           if (result) onPhotoSelected(result);
         },
       },
       {
-        text: "Scegli dalla galleria",
+        text: labels.photoPicker.alerts.chooseFromGallery,
         onPress: async () => {
           const result = await pickFromGallery();
           if (result) onPhotoSelected(result);
         },
       },
-      { text: "Annulla", style: "cancel" },
+      { text: labels.common.cancel, style: "cancel" },
     ]);
   };
 
@@ -65,7 +66,7 @@ export function PhotoPicker({ photo, onPhotoSelected }: PhotoPickerProps) {
     <Pressable
       onPress={handlePress}
       accessibilityRole="button"
-      accessibilityLabel="Aggiungi foto"
+      accessibilityLabel={labels.photoPicker.a11y.addPhoto}
       className="h-48 w-full items-center justify-center overflow-hidden rounded-xl bg-secondary"
     >
       {photo ? (
@@ -78,7 +79,7 @@ export function PhotoPicker({ photo, onPhotoSelected }: PhotoPickerProps) {
         <View className="items-center gap-2">
           <Icon as={Camera} size="xl" className="text-muted-foreground" />
           <Text className="font-pet-medium text-sm text-muted-foreground">
-            Aggiungi una foto
+            {labels.photoPicker.empty.addPhoto}
           </Text>
         </View>
       )}

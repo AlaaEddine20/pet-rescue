@@ -1,3 +1,4 @@
+import { labels } from "@/locales";
 import { Report } from "@/types/ReportType";
 import { FlatList, Text, View } from "react-native";
 import ReportListItem from "./ReportListItem";
@@ -11,10 +12,10 @@ const MyReportsList = ({ reports }: MyReportsListProps) => {
     return (
       <View className="items-center rounded-xl bg-secondary p-6">
         <Text className="font-pet-medium text-sm text-foreground">
-          Nessuna segnalazione ancora
+          {labels.myReportsList.empty.title}
         </Text>
         <Text className="mt-1 text-center text-xs text-muted-foreground">
-          Le segnalazioni che invii appariranno qui.
+          {labels.myReportsList.empty.body}
         </Text>
       </View>
     );

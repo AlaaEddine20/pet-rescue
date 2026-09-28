@@ -1,3 +1,4 @@
+import { labels } from "@/locales";
 import { Icon } from "@/ui/icon";
 import { MapPin } from "lucide-react-native";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
@@ -26,11 +27,13 @@ export function LocationField({
           <ActivityIndicator />
         ) : (
           <Text className="font-pet-medium flex-1 text-sm text-foreground">
-            {addressLabel ?? "Rileva la mia posizione"}
+            {addressLabel ?? labels.locationField.detectMyLocation}
           </Text>
         )}
         {addressLabel && !isLoading && (
-          <Text className="font-pet-medium text-xs text-primary">Aggiorna</Text>
+          <Text className="font-pet-medium text-xs text-primary">
+            {labels.locationField.update}
+          </Text>
         )}
       </Pressable>
       {error && <Text className="mt-1 text-xs text-destructive">{error}</Text>}

@@ -1,3 +1,4 @@
+import { format, labels } from "@/locales";
 import { Report } from "@/types/ReportType";
 import { PawPrint } from "lucide-react-native";
 import { Text, View } from "react-native";
@@ -7,9 +8,9 @@ function formatRelativeDate(isoDate: string): string {
   const diffDays = Math.floor(
     (Date.now() - new Date(isoDate).getTime()) / (1000 * 60 * 60 * 24),
   );
-  if (diffDays === 0) return "Oggi";
-  if (diffDays === 1) return "Ieri";
-  return `${diffDays} giorni fa`;
+  if (diffDays === 0) return labels.reportListItem.relative.today;
+  if (diffDays === 1) return labels.reportListItem.relative.yesterday;
+  return format(labels.reportListItem.relative.daysAgo, { days: diffDays });
 }
 
 type ReportListItemProps = {

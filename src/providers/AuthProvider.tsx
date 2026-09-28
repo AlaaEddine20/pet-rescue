@@ -1,85 +1,53 @@
 import { AuthContext } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
-import { LoginUser, Profile, SignUpUser } from "@/types/Auth";
-import { AuthError, Session, User } from "@supabase/supabase-js";
+import { getProfile } from "@/services/profile";
+import { LoginUser, SignUpUser } from "@/types/AuthType";
+import { AuthError, Session } from "@supabase/supabase-js";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   PropsWithChildren,
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 
 export function AuthProvider({ children }: PropsWithChildren) {
-  const [user, setUser] = useState<User | null>(null);
+  const queryClient = useQueryClient();
   const [session, setSession] = useState<Session | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [profileError, setProfileError] = useState<string | null>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
-  const [isProfileLoading, setIsProfileLoading] = useState(true);
 
-  const isLoading = isAuthLoading || isProfileLoading;
+  // Derivati dalla session: non sono più stato separato
+  const user = session?.user ?? null;
+  const userId = user?.id;
   const isLoggedIn = !!session;
 
-  const latestUserId = useRef<string | null>(null);
+  const {
+    data: profile = null,
+    error: profileQueryError,
+    isLoading: isProfileLoading,
+    refetch: refetchProfile,
+  } = useQuery({
+    queryKey: ["profile", userId],
+    queryFn: () => getProfile(userId!),
+    enabled: !!userId,
+    retry: 1,
+  });
 
-  const loadProfile = useCallback(async (userId: string) => {
-    latestUserId.current = userId;
-    setIsProfileLoading(true);
-    setProfileError(null);
-
-    const { data, error } = await supabase
-      .from("users")
-      .select("id, user_name, role, avatar_url")
-      .eq("id", userId)
-      .maybeSingle();
-
-    // Se nel frattempo l'utente è cambiato, scarta questa risposta "stale"
-    if (latestUserId.current !== userId) return;
-
-    if (error) {
-      console.error("Errore nel caricamento del profilo:", error);
-      setProfile(null);
-      setProfileError(error.message);
-    } else {
-      setProfile(data);
-    }
-    setIsProfileLoading(false);
-  }, []);
+  const profileError = profileQueryError?.message ?? null;
+  const isAuthBootstrapping = isAuthLoading || isProfileLoading;
 
   useEffect(() => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, nextSession) => {
       setSession(nextSession);
-      setUser(nextSession?.user ?? null);
 
-      if (event === "SIGNED_OUT") {
-        setProfile(null);
-        setProfileError(null);
-      }
-      if (event === "INITIAL_SESSION") {
-        setIsAuthLoading(false);
-      }
+      if (event === "SIGNED_OUT") queryClient.clear();
+      if (event === "INITIAL_SESSION") setIsAuthLoading(false);
     });
     return () => subscription.unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    // Aspetta di conoscere lo stato iniziale dell'auth prima di "chiudere" il loading
-    if (isAuthLoading) return;
-
-    if (!user) {
-      latestUserId.current = null;
-      setProfile(null);
-      setProfileError(null);
-      setIsProfileLoading(false);
-      return;
-    }
-
-    loadProfile(user.id);
-  }, [user?.id, isAuthLoading, loadProfile]);
+  }, [queryClient]);
 
   const signIn = useCallback(
     async (userData: LoginUser): Promise<{ error: AuthError | null }> => {
@@ -109,8 +77,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, []);
 
   const refreshProfile = useCallback(() => {
-    if (user) loadProfile(user.id);
-  }, [user, loadProfile]);
+    void refetchProfile();
+  }, [refetchProfile]);
 
   const value = useMemo(
     () => ({
@@ -118,7 +86,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
       session,
       profile,
       profileError,
-      isLoading,
+      isAuthBootstrapping,
+      isLoading: isAuthBootstrapping,
       isLoggedIn,
       signIn,
       signUp,
@@ -130,7 +99,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       session,
       profile,
       profileError,
-      isLoading,
+      isAuthBootstrapping,
       isLoggedIn,
       signIn,
       signUp,

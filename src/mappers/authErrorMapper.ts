@@ -1,3 +1,4 @@
+import { labels } from "@/locales";
 import type { AuthError } from "@supabase/supabase-js";
 import type { Path, UseFormSetError } from "react-hook-form";
 
@@ -18,14 +19,14 @@ export function applyAuthError<T extends AuthFormFields>(
     case "email_exists":
       setError("email" as Path<T>, {
         type: "manual",
-        message: "Esiste già un account con questa email.",
+        message: labels.authErrors.emailAlreadyExists,
       });
       return;
 
     case "email_address_invalid":
       setError("email" as Path<T>, {
         type: "manual",
-        message: "Questo indirizzo email non è supportato.",
+        message: labels.authErrors.emailAddressInvalid,
       });
       return;
 
@@ -33,7 +34,7 @@ export function applyAuthError<T extends AuthFormFields>(
     case "email_not_confirmed":
       setError("email" as Path<T>, {
         type: "manual",
-        message: "Conferma la tua email prima di accedere.",
+        message: labels.authErrors.emailNotConfirmed,
       });
       return;
 
@@ -41,7 +42,7 @@ export function applyAuthError<T extends AuthFormFields>(
     case "weak_password":
       setError("password" as Path<T>, {
         type: "manual",
-        message: "La password non è sufficientemente sicura.",
+        message: labels.authErrors.weakPassword,
       });
       return;
 
@@ -49,7 +50,7 @@ export function applyAuthError<T extends AuthFormFields>(
     case "invalid_credentials":
       setError("root", {
         type: "manual",
-        message: "Email o password non corretti.",
+        message: labels.authErrors.invalidCredentials,
       });
       return;
 
@@ -58,14 +59,14 @@ export function applyAuthError<T extends AuthFormFields>(
     case "over_email_send_rate_limit":
       setError("root", {
         type: "manual",
-        message: "Troppi tentativi. Riprova tra qualche minuto.",
+        message: labels.authErrors.tooManyAttempts,
       });
       return;
 
     case "user_banned":
       setError("root", {
         type: "manual",
-        message: "Questo account è stato temporaneamente sospeso.",
+        message: labels.authErrors.userBanned,
       });
       return;
 
@@ -73,7 +74,7 @@ export function applyAuthError<T extends AuthFormFields>(
     case "email_provider_disabled":
       setError("root", {
         type: "manual",
-        message: "La registrazione non è al momento disponibile.",
+        message: labels.authErrors.signupDisabled,
       });
       return;
 
@@ -82,14 +83,14 @@ export function applyAuthError<T extends AuthFormFields>(
       if (error.name === "AuthRetryableFetchError") {
         setError("root", {
           type: "manual",
-          message: "Problema di connessione. Controlla la rete e riprova.",
+          message: labels.authErrors.networkError,
         });
         return;
       }
 
       setError("root", {
         type: "manual",
-        message: "Si è verificato un errore. Riprova più tardi.",
+        message: labels.authErrors.genericError,
       });
   }
 }

@@ -1,5 +1,6 @@
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { SignUpUserSchema } from "@/lib/validators";
+import { format, labels } from "@/locales";
 import { applyAuthError } from "@/mappers/authErrorMapper";
 import { SignUpUser } from "@/types/AuthType";
 import { Button, ButtonText } from "@/ui/button";
@@ -47,12 +48,17 @@ const SignUpForm = () => {
               <InputField
                 id="user_name-input"
                 onChangeText={onChange}
-                placeholder="Nome"
+                placeholder={labels.signUpForm.placeholders.name}
                 value={value}
                 onBlur={onBlur}
                 autoCapitalize="none"
                 className="font-pet-medium text-base text-foreground"
-                accessibilityLabel={error && `User Name, ${error.message}`}
+                accessibilityLabel={
+                  error &&
+                  format(labels.signUpForm.a11y.nameWithError, {
+                    error: String(error.message),
+                  })
+                }
               />
             </Input>
             {error?.message && (
@@ -73,12 +79,17 @@ const SignUpForm = () => {
               <InputField
                 id="email-input"
                 onChangeText={onChange}
-                placeholder="Email"
+                placeholder={labels.common.email}
                 value={value}
                 onBlur={onBlur}
                 autoCapitalize="none"
                 className="font-pet-medium text-base text-foreground"
-                accessibilityLabel={error && `Email, ${error.message}`}
+                accessibilityLabel={
+                  error &&
+                  format(labels.signUpForm.a11y.emailWithError, {
+                    error: String(error.message),
+                  })
+                }
               />
             </Input>
             {error?.message && (
@@ -99,13 +110,18 @@ const SignUpForm = () => {
               <InputField
                 id="password-input"
                 onChangeText={onChange}
-                placeholder="Password"
+                placeholder={labels.common.password}
                 secureTextEntry
                 value={value}
                 onBlur={onBlur}
                 autoCapitalize="none"
                 className="font-pet-medium text-base text-foreground"
-                accessibilityLabel={error && `Password, ${error.message}`}
+                accessibilityLabel={
+                  error &&
+                  format(labels.signUpForm.a11y.passwordWithError, {
+                    error: String(error.message),
+                  })
+                }
               />
             </Input>
             {error?.message && (
@@ -126,14 +142,17 @@ const SignUpForm = () => {
               <InputField
                 id="confirm-password-input"
                 onChangeText={onChange}
-                placeholder="Conferma Password"
+                placeholder={labels.signUpForm.placeholders.confirmPassword}
                 secureTextEntry
                 value={value}
                 onBlur={onBlur}
                 autoCapitalize="none"
                 className="font-pet-medium text-base text-foreground"
                 accessibilityLabel={
-                  error && `Conferma password, ${error.message}`
+                  error &&
+                  format(labels.signUpForm.a11y.confirmPasswordWithError, {
+                    error: String(error.message),
+                  })
                 }
               />
             </Input>
@@ -161,14 +180,14 @@ const SignUpForm = () => {
         <Button
           className="mt-2 rounded-lg bg-blue-600 py-4"
           onPress={handleSubmit(onSubmit)}
-          accessibilityLabel="Create account"
+          accessibilityLabel={labels.signUpForm.a11y.submit}
           disabled={isSubmitting}
         >
           {isSubmitting ? (
             <ActivityIndicator />
           ) : (
             <ButtonText className="font-pet-semibold text-white">
-              Crea Account
+              {labels.signUpForm.cta.submit}
             </ButtonText>
           )}
         </Button>

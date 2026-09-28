@@ -3,6 +3,7 @@ import SignInForm from "@/components/SignInForm";
 import SignUpForm from "@/components/SignUpForm";
 import { SegmentedToggle } from "@/components/ThemedSegmentedToggle";
 import { LOGO_SOURCES } from "@/lib/constants";
+import { labels } from "@/locales";
 import { AuthMode } from "@/types/AuthType";
 import { useState } from "react";
 import {
@@ -42,9 +43,7 @@ const NoAuthScreen = () => {
             </View>
 
             <Text className="my-4 text-center font-pet-medium leading-normal text-base leading-5 text-muted-foreground">
-              Hai trovato un cane o un gatto disperso o abbandonato? Segnalalo
-              con la sua posizione e aiuta volontari e associazioni a metterlo
-              in salvo.
+              {labels.noAuthScreen.intro}
             </Text>
 
             <View className="mt-5 w-full justify-center">
@@ -52,8 +51,8 @@ const NoAuthScreen = () => {
                 value={mode}
                 onChange={setMode}
                 options={[
-                  { label: "Login", value: "signin" },
-                  { label: "Registrati", value: "signup" },
+                  { label: labels.noAuthScreen.tabs.login, value: "signin" },
+                  { label: labels.noAuthScreen.tabs.signup, value: "signup" },
                 ]}
               />
             </View>

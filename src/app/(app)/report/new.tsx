@@ -4,6 +4,7 @@ import { SegmentedToggle } from "@/components/ThemedSegmentedToggle";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { useCurrentLocation } from "@/hooks/useCurrentLocation";
 import { NewReportFormValues, NewReportSchema } from "@/lib/validators";
+import { labels } from "@/locales";
 import { createReport } from "@/services/report";
 import { AnimalType, NewReport } from "@/types/ReportType";
 import { Button, ButtonText } from "@/ui/button";
@@ -48,14 +49,16 @@ export default function NewReportScreen() {
       queryClient.invalidateQueries({
         queryKey: ["reports", "mine", user?.id],
       });
-      Alert.alert("Segnalazione inviata", "Grazie per il tuo aiuto!");
+      Alert.alert(
+        labels.newReportScreen.alerts.submitSuccessTitle,
+        labels.newReportScreen.alerts.submitSuccessMessage,
+      );
       router.back();
     },
     onError: (err) => {
-      console.log(err);
       setError("root", {
         type: "manual",
-        message: "Invio non riuscito. Riprova.",
+        message: labels.newReportScreen.errors.submitFailed,
       });
     },
   });
@@ -64,14 +67,14 @@ export default function NewReportScreen() {
     if (!photo) {
       setError("root", {
         type: "manual",
-        message: "Aggiungi una foto prima di inviare.",
+        message: labels.newReportScreen.errors.photoRequired,
       });
       return;
     }
     if (!location) {
       setError("root", {
         type: "manual",
-        message: "Rileva la posizione prima di inviare.",
+        message: labels.newReportScreen.errors.locationRequired,
       });
       return;
     }
@@ -97,7 +100,7 @@ export default function NewReportScreen() {
         keyboardShouldPersistTaps="handled"
       >
         <Text className="font-pet-bold text-lg text-foreground">
-          Nuova segnalazione
+          {labels.newReportScreen.title}
         </Text>
 
         <PhotoPicker photo={photo} onPhotoSelected={setPhoto} />
@@ -110,9 +113,12 @@ export default function NewReportScreen() {
               value={value}
               onChange={(v: string) => onChange(v)}
               options={[
-                { label: "Cane", value: "dog" },
-                { label: "Gatto", value: "cat" },
-                { label: "Altro", value: "other" },
+                { label: labels.newReportScreen.animalType.dog, value: "dog" },
+                { label: labels.newReportScreen.animalType.cat, value: "cat" },
+                {
+                  label: labels.newReportScreen.animalType.other,
+                  value: "other",
+                },
               ]}
             />
           )}
@@ -128,7 +134,7 @@ export default function NewReportScreen() {
             <>
               <Input className="w-full rounded-lg border-0 bg-secondary p-3">
                 <InputField
-                  placeholder="Descrivi cosa hai visto (dove, condizioni dell'animale...)"
+                  placeholder={labels.newReportScreen.placeholders.description}
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
@@ -169,10 +175,12 @@ export default function NewReportScreen() {
           className="rounded-lg bg-blue-600 py-4"
           onPress={handleSubmit(onSubmit)}
           disabled={isSubmitting}
-          accessibilityLabel="Invia segnalazione"
+          accessibilityLabel={labels.newReportScreen.cta.submit}
         >
           <ButtonText className="font-pet-semibold text-white">
-            {isSubmitting ? "Invio in corso..." : "Invia segnalazione"}
+            {isSubmitting
+              ? labels.newReportScreen.cta.submitting
+              : labels.newReportScreen.cta.submit}
           </ButtonText>
         </Button>
       </ScrollView>

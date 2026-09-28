@@ -1,5 +1,6 @@
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { LoginUserSchema } from "@/lib/validators";
+import { format, labels } from "@/locales";
 import { LoginUser } from "@/types/AuthType";
 import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
@@ -44,12 +45,17 @@ const SignInForm = () => {
               <InputField
                 id="email-input"
                 onChangeText={onChange}
-                placeholder="Email"
+                placeholder={labels.common.email}
                 value={value}
                 onBlur={onBlur}
                 autoCapitalize="none"
                 className="font-pet-medium text-base text-foreground"
-                accessibilityLabel={error && `Email, ${error.message}`}
+                accessibilityLabel={
+                  error &&
+                  format(labels.signInForm.a11y.emailWithError, {
+                    error: String(error.message),
+                  })
+                }
               />
             </Input>
             {error?.message && (
@@ -70,13 +76,18 @@ const SignInForm = () => {
               <InputField
                 id="password-input"
                 onChangeText={onChange}
-                placeholder="Password"
+                placeholder={labels.common.password}
                 secureTextEntry
                 value={value}
                 onBlur={onBlur}
                 autoCapitalize="none"
                 className="font-pet-medium text-base text-foreground"
-                accessibilityLabel={error && `Password, ${error.message}`}
+                accessibilityLabel={
+                  error &&
+                  format(labels.signInForm.a11y.passwordWithError, {
+                    error: String(error.message),
+                  })
+                }
               />
             </Input>
             {error?.message && (
@@ -102,14 +113,14 @@ const SignInForm = () => {
         <Button
           className="mt-2 rounded-lg bg-blue-600 py-4"
           onPress={handleSubmit(onSubmit)}
-          accessibilityLabel="Sign in"
+          accessibilityLabel={labels.signInForm.a11y.submit}
           disabled={isSubmitting}
         >
           {isSubmitting ? (
             <ActivityIndicator />
           ) : (
             <ButtonText className="font-pet-semibold text-white">
-              Login
+              {labels.signInForm.cta.submit}
             </ButtonText>
           )}
         </Button>

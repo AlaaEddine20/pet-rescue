@@ -1,3 +1,4 @@
+import { labels } from "@/locales";
 import * as Location from "expo-location";
 import { useCallback, useState } from "react";
 
@@ -18,9 +19,7 @@ export function useCurrentLocation() {
 
     const { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
-      setError(
-        "Permesso posizione negato. Attivalo dalle impostazioni per continuare.",
-      );
+      setError(labels.locationField.errors.permissionDenied);
       setIsLoading(false);
       return;
     }
@@ -43,7 +42,7 @@ export function useCurrentLocation() {
           : null,
       });
     } catch {
-      setError("Non riesco a rilevare la posizione. Riprova.");
+      setError(labels.locationField.errors.fetchFailed);
     } finally {
       setIsLoading(false);
     }
