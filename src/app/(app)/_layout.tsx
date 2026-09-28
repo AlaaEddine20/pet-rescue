@@ -1,3 +1,4 @@
+import { labels } from "@/locales";
 import { Stack } from "expo-router";
 
 const AppLayout = () => {
@@ -7,7 +8,10 @@ const AppLayout = () => {
       <Stack.Screen name="HomeCitizenScreen" options={{ headerShown: false }} />
       <Stack.Screen
         name="report/new"
-        options={{ presentation: "modal", title: "Nuova segnalazione" }}
+        options={{
+          presentation: "modal",
+          title: labels.newReportScreen.title,
+        }}
       />
     </Stack>
   );
