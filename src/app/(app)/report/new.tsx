@@ -10,7 +10,7 @@ import { AnimalType, NewReport } from "@/types/ReportType";
 import { Button, ButtonText } from "@/ui/button";
 import { Input, InputField } from "@/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -26,7 +26,7 @@ import {
 export default function NewReportScreen() {
   const router = useRouter();
   const { user } = useAuthContext();
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const { location, isLocationLoading, locationError, fetchLocation } =
     useCurrentLocation();
   const [photo, setPhoto] = useState<{ uri: string; base64: string } | null>(
@@ -45,9 +45,9 @@ export default function NewReportScreen() {
 
   const { mutate: submitReport, isPending: isSubmitting } = useMutation({
     mutationFn: (report: NewReport) => createReport(user!.id, report),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["reports", "mine", user?.id],
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["reports", "mine", user!.id],
       });
       Alert.alert(
         labels.newReportScreen.alerts.submitSuccessTitle,
@@ -55,7 +55,7 @@ export default function NewReportScreen() {
       );
       router.back();
     },
-    onError: (err) => {
+    onError: () => {
       setError("root", {
         type: "manual",
         message: labels.newReportScreen.errors.submitFailed,

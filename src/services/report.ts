@@ -1,4 +1,3 @@
-import { useAuthContext } from "@/hooks/useAuthContext";
 import { supabase } from "@/lib/supabase";
 import {
   AnimalTypeSchema,
@@ -32,9 +31,9 @@ export const uploadReportPhoto = async (
 
 export const createReport = async (reporterId: string, report: NewReport) => {
   const photoUrl = await uploadReportPhoto(reporterId, report.photo);
-  const { user } = useAuthContext();
+
   const { error } = await supabase.from("reports").insert({
-    reporter_id: user?.id,
+    reporter_id: reporterId,
     animal_type: report.animalType,
     description: report.description,
     photo_url: photoUrl,
@@ -70,10 +69,9 @@ const mapRowToReport = (row: unknown): Report => {
 export const getMyReports = async (reporterId: string): Promise<Report[]> => {
   const { data, error } = await supabase
     .from("reports")
-    .select("id, description, status, created_at")
+    .select("id, description, animal_type, status, created_at, address_label")
     .eq("reporter_id", reporterId)
     .order("created_at", { ascending: false });
-
   if (error) throw error;
 
   return data.map(mapRowToReport);
