@@ -12,3 +12,6 @@ export type Profile = {
 };
 
 export type AuthMode = "signin" | "signup";
+
+export const UserRoleSchema = z.enum(["citizen", "organization", "volunteer"]);
+export type UserRole = z.infer<typeof UserRoleSchema>;

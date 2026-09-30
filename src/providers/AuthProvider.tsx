@@ -17,7 +17,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session | null>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
 
-  // Derivati dalla session: non sono più stato separato
   const user = session?.user ?? null;
   const userId = user?.id;
   const isLoggedIn = !!session;
