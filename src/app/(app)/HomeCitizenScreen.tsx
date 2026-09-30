@@ -9,7 +9,7 @@ import { useRouter } from "expo-router";
 import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 
 const HomeScreen = () => {
-  const { data: reports, isLoading, isError } = useMyReports();
+  const { data: reports, isLoading } = useMyReports();
   const router = useRouter();
 
   return (
@@ -21,10 +21,6 @@ const HomeScreen = () => {
         <>
           <AppHeader />
           <ScreenGreeting />
-          <View>
-            <Text className="text-lg text-muted-foreground"></Text>
-          </View>
-
           <ReportCtaCard onPress={() => router.push("/(app)/report/new")} />
           <View className="gap-3">
             <Text className="font-pet-semibold text-base text-foreground">
@@ -33,10 +29,6 @@ const HomeScreen = () => {
             {isLoading ? (
               <View className="py-8">
                 <ActivityIndicator size={"large"} />
-              </View>
-            ) : isError ? (
-              <View className="py-8">
-                <Text>{labels.homeScreen.loadError}</Text>
               </View>
             ) : (
               <MyReportsList reports={reports ?? []} />

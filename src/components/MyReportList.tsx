@@ -1,14 +1,17 @@
+import { useMyReports } from "@/hooks/useReports";
 import { labels } from "@/locales";
 import { Report } from "@/types/ReportType";
 import { FlatList, Text, View } from "react-native";
-import ReportListItem from "./ReportListItem";
+import ReportListItem from "./MyReportListItem";
 
 type MyReportsListProps = {
   reports: Report[];
 };
 
 const MyReportsList = ({ reports }: MyReportsListProps) => {
-  if (reports.length === 0) {
+  const { isError } = useMyReports();
+
+  if (reports.length === 0 || isError) {
     return (
       <View className="items-center rounded-xl bg-secondary p-6">
         <Text className="font-pet-medium text-sm text-foreground">
