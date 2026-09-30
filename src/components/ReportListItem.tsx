@@ -1,17 +1,8 @@
-import { format, labels } from "@/locales";
 import { Report } from "@/types/ReportType";
 import { PawPrint } from "lucide-react-native";
 import { Text, View } from "react-native";
+import { formatRelativeDate } from "../utils/utils";
 import ReportStatusBadge from "./ReportStatusBadge";
-
-function formatRelativeDate(isoDate: string): string {
-  const diffDays = Math.floor(
-    (Date.now() - new Date(isoDate).getTime()) / (1000 * 60 * 60 * 24),
-  );
-  if (diffDays === 0) return labels.reportListItem.relative.today;
-  if (diffDays === 1) return labels.reportListItem.relative.yesterday;
-  return format(labels.reportListItem.relative.daysAgo, { days: diffDays });
-}
 
 type ReportListItemProps = {
   report: Report;
