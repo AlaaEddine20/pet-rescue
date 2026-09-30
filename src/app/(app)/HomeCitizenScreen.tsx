@@ -2,14 +2,13 @@ import AppHeader from "@/components/AppHeader";
 import MyReportsList from "@/components/MyReportList";
 import ReportCtaCard from "@/components/ReportCtaCard";
 import ScreenContainer from "@/components/ScreenContainer";
-import { useAuthContext } from "@/hooks/useAuthContext";
+import { ScreenGreeting } from "@/components/ScreenGreeting";
 import { useMyReports } from "@/hooks/useReports";
-import { format, labels } from "@/locales";
+import { labels } from "@/locales";
 import { useRouter } from "expo-router";
 import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 
 const HomeScreen = () => {
-  const { profile } = useAuthContext();
   const { data: reports, isLoading, isError } = useMyReports();
   const router = useRouter();
 
@@ -21,14 +20,9 @@ const HomeScreen = () => {
       >
         <>
           <AppHeader />
+          <ScreenGreeting />
           <View>
-            <Text className="text-lg text-muted-foreground">
-              {profile?.user_name
-                ? format(labels.homeScreen.greeting, {
-                    name: profile.user_name,
-                  })
-                : labels.homeScreen.greetingFallback}
-            </Text>
+            <Text className="text-lg text-muted-foreground"></Text>
           </View>
 
           <ReportCtaCard onPress={() => router.push("/(app)/report/new")} />
