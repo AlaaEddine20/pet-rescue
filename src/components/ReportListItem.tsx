@@ -1,18 +1,28 @@
 import { Report } from "@/types/ReportType";
-import { PawPrint } from "lucide-react-native";
+import { Button, ButtonText } from "@/ui/button";
+import { Icon } from "@/ui/icon";
+import { MapPin, PawPrint } from "lucide-react-native";
 import { Text, View } from "react-native";
 import { formatRelativeDate } from "../utils/utils";
 import ReportStatusBadge from "./ReportStatusBadge";
 
 type ReportListItemProps = {
   report: Report;
+  onClaim?: (reportId: string) => void;
+  isClaiming?: boolean;
 };
 
-const ReportListItem = ({ report }: ReportListItemProps) => {
+const ReportListItem = ({
+  report,
+  onClaim,
+  isClaiming,
+}: ReportListItemProps) => {
+  const canClaim = report.status === "pending" && !!onClaim;
+
   return (
     <View className="flex-row items-center gap-3 rounded-xl bg-secondary p-3">
       <View className="h-10 w-10 items-center justify-center rounded-lg bg-accent">
-        <PawPrint size={17} color="#2E86DE" />
+        <Icon as={PawPrint} size="sm" className="text-accent-foreground" />
       </View>
 
       <View className="flex-1">
@@ -22,12 +32,36 @@ const ReportListItem = ({ report }: ReportListItemProps) => {
         >
           {report.title}
         </Text>
-        <Text className="mt-0.5 text-xs text-muted-foreground">
-          {formatRelativeDate(report.createdAt)}
-        </Text>
+        <View className="mt-0.5 flex-row items-center gap-1">
+          {report.addressLabel && (
+            <>
+              <Icon as={MapPin} size="xs" className="text-muted-foreground" />
+              <Text className="text-xs text-muted-foreground" numberOfLines={1}>
+                {report.addressLabel}
+              </Text>
+              <Text className="text-xs text-muted-foreground">·</Text>
+            </>
+          )}
+          <Text className="text-xs text-muted-foreground">
+            {formatRelativeDate(report.createdAt)}
+          </Text>
+        </View>
       </View>
 
-      <ReportStatusBadge status={report.status} />
+      {canClaim ? (
+        <Button
+          className="rounded-lg border border-primary bg-transparent px-3 py-1.5"
+          onPress={() => onClaim!(report.id)}
+          disabled={isClaiming}
+          accessibilityLabel={`Prendi in carico: ${report.title}`}
+        >
+          <ButtonText className="font-pet-medium text-xs text-primary">
+            {isClaiming ? "..." : "Prendi in carico"}
+          </ButtonText>
+        </Button>
+      ) : (
+        <ReportStatusBadge status={report.status} />
+      )}
     </View>
   );
 };
