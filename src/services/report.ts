@@ -1,7 +1,13 @@
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { supabase } from "@/lib/supabase";
-import { NewReport, Report } from "@/types/ReportType";
+import {
+  AnimalTypeSchema,
+  NewReport,
+  Report,
+  ReportStatusSchema,
+} from "@/types/ReportType";
 import { decode } from "base64-arraybuffer";
+import z from "zod";
 
 export const uploadReportPhoto = async (
   userId: string,
@@ -27,7 +33,6 @@ export const uploadReportPhoto = async (
 export const createReport = async (reporterId: string, report: NewReport) => {
   const photoUrl = await uploadReportPhoto(reporterId, report.photo);
   const { user } = useAuthContext();
-
   const { error } = await supabase.from("reports").insert({
     reporter_id: user?.id,
     animal_type: report.animalType,
@@ -41,6 +46,27 @@ export const createReport = async (reporterId: string, report: NewReport) => {
   if (error) throw error;
 };
 
+const ReportRowSchema = z.object({
+  id: z.string(),
+  description: z.string(),
+  animal_type: AnimalTypeSchema,
+  status: ReportStatusSchema,
+  created_at: z.string(),
+  address_label: z.string().nullable(),
+});
+
+const mapRowToReport = (row: unknown): Report => {
+  const parsed = ReportRowSchema.parse(row);
+  return {
+    id: parsed.id,
+    title: parsed.description,
+    animalType: parsed.animal_type,
+    createdAt: parsed.created_at,
+    status: parsed.status,
+    addressLabel: parsed.address_label,
+  };
+};
+
 export const getMyReports = async (reporterId: string): Promise<Report[]> => {
   const { data, error } = await supabase
     .from("reports")
@@ -50,10 +76,38 @@ export const getMyReports = async (reporterId: string): Promise<Report[]> => {
 
   if (error) throw error;
 
-  return data.map((row) => ({
-    id: row.id,
-    title: row.description,
-    createdAt: row.created_at,
-    status: row.status,
-  }));
+  return data.map(mapRowToReport);
+};
+
+export const getRelevantReports = async (
+  responderId: string,
+): Promise<Report[]> => {
+  const { data, error } = await supabase
+    .from("reports")
+    .select("id, description, animal_type, status, created_at, address_label")
+    .or(`status.eq.pending,assigned_to.eq.${responderId}`)
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return data.map(mapRowToReport);
+};
+
+export const claimReport = async (
+  reportId: string,
+  responderId: string,
+): Promise<void> => {
+  const { error, data } = await supabase
+    .from("reports")
+    .update({ status: "in_progress", assigned_to: responderId })
+    .eq("id", reportId)
+    .eq("status", "pending")
+    .select()
+    .maybeSingle();
+
+  if (error) throw error;
+  if (!data) {
+    throw new Error(
+      "Questa segnalazione è già stata presa in carico da qualcun altro.",
+    );
+  }
 };
