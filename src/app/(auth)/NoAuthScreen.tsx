@@ -42,7 +42,7 @@ const NoAuthScreen = () => {
               />
             </View>
 
-            <Text className="my-4 text-center font-pet-medium leading-normal text-base leading-5 text-muted-foreground">
+            <Text className="my-4 text-center font-pet-sm leading-normal text-base leading-5 text-muted-foreground">
               {labels.noAuthScreen.intro}
             </Text>
 

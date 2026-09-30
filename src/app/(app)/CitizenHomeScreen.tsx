@@ -8,7 +8,7 @@ import { labels } from "@/locales";
 import { useRouter } from "expo-router";
 import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 
-const HomeScreen = () => {
+const CitizenHomeScreen = () => {
   const { data: reports, isLoading } = useMyReports();
   const router = useRouter();
 
@@ -40,4 +40,4 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default CitizenHomeScreen;

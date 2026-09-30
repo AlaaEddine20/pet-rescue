@@ -1,1 +1,1 @@
-export { default } from "./HomeCitizenScreen";
+export { default } from "./CitizenHomeScreen";
