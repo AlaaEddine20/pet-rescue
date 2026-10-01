@@ -1,6 +1,6 @@
 import AppHeader from "@/components/AppHeader";
-import MyReportsList from "@/components/MyReportList";
 import ReportCtaCard from "@/components/ReportCtaCard";
+import MyReportsList from "@/components/ReportList";
 import ScreenContainer from "@/components/ScreenContainer";
 import { ScreenGreeting } from "@/components/ScreenGreeting";
 import { useMyReports } from "@/hooks/useReports";
