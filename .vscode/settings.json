@@ -4,9 +4,7 @@
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
   },
-  "deno.enablePaths": [
-    "./supabase/functions"
-  ],
+  "deno.enablePaths": ["./supabase/functions"],
   "deno.config": "./supabase/functions/sync-runts/deno.json",
   "deno.lint": true,
   "deno.unstable": [
@@ -25,6 +23,6 @@
     "net"
   ],
   "[typescript]": {
-    "editor.defaultFormatter": "denoland.vscode-deno"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
