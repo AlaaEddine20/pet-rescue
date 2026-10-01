@@ -8,11 +8,9 @@ export const SignUpUserSchema = z
     password: z
       .string()
       .min(8, { message: labels.validation.passwordTooShort }),
-    confirmPassword: z
-      .string()
-      .min(8, {
-        message: labels.validation.passwordConfirmationNotCorrect,
-      }),
+    confirmPassword: z.string().min(8, {
+      message: labels.validation.passwordConfirmationNotCorrect,
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: labels.validation.passwordsDoNotMatch,
@@ -21,9 +19,7 @@ export const SignUpUserSchema = z
 
 export const LoginUserSchema = z.object({
   email: z.email({ message: labels.validation.invalidEmail }),
-  password: z
-    .string()
-    .min(8, { message: labels.validation.passwordTooShort }),
+  password: z.string().min(8, { message: labels.validation.passwordTooShort }),
 });
 
 export const NewReportSchema = z.object({
@@ -34,3 +30,21 @@ export const NewReportSchema = z.object({
 });
 
 export type NewReportFormValues = z.infer<typeof NewReportSchema>;
+
+const CODICE_FISCALE_REGEX = /^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$/;
+const PARTITA_IVA_REGEX = /^\d{11}$/;
+
+export const OrganizationOnboardingSchema = z.object({
+  name: z.string().min(2, { message: "Inserisci il nome dell'associazione." }),
+  taxCode: z
+    .string()
+    .toUpperCase()
+    .refine(
+      (value) =>
+        CODICE_FISCALE_REGEX.test(value) || PARTITA_IVA_REGEX.test(value),
+      { message: "Inserisci un codice fiscale o una partita IVA validi." },
+    ),
+});
+export type OrganizationOnboardingValues = z.infer<
+  typeof OrganizationOnboardingSchema
+>;
