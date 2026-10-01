@@ -2,13 +2,19 @@ import { useMyReports } from "@/hooks/useReports";
 import { labels } from "@/locales";
 import { Report } from "@/types/ReportType";
 import { FlatList, Text, View } from "react-native";
-import ReportListItem from "./MyReportListItem";
+import ReportListItem from "./ReportListItem";
 
-type MyReportsListProps = {
+type ReportsListProps = {
   reports: Report[];
+  onClaim?: (reportId: string) => void;
+  claimingReportId?: string;
 };
 
-const MyReportsList = ({ reports }: MyReportsListProps) => {
+const MyReportsList = ({
+  reports,
+  onClaim,
+  claimingReportId,
+}: ReportsListProps) => {
   const { isError } = useMyReports();
 
   if (reports.length === 0 || isError) {
@@ -28,9 +34,15 @@ const MyReportsList = ({ reports }: MyReportsListProps) => {
     <FlatList
       data={reports}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <ReportListItem report={item} />}
+      renderItem={({ item }) => (
+        <ReportListItem
+          report={item}
+          onClaim={onClaim}
+          isClaiming={claimingReportId === item.id}
+        />
+      )}
       ItemSeparatorComponent={() => <View className="h-2.5" />}
-      scrollEnabled={false} // lo scroll è gestito dalla ScrollView della screen
+      scrollEnabled={false}
     />
   );
 };

@@ -1,5 +1,5 @@
 import { useAuthContext } from "@/hooks/useAuthContext";
-import { getMyReports, getRelevantReports } from "@/services/report";
+import { getMyReports } from "@/services/report";
 import { useQuery } from "@tanstack/react-query";
 
 export function useMyReports() {
@@ -11,13 +11,3 @@ export function useMyReports() {
     enabled: !!user,
   });
 }
-
-export const useOrganizationReports = () => {
-  const { user } = useAuthContext();
-
-  return useQuery({
-    queryKey: ["reports", "relevant", user?.id],
-    queryFn: () => getRelevantReports(user!.id),
-    enabled: !!user,
-  });
-};

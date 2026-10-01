@@ -2,7 +2,11 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 import { format, labels } from "@/locales";
 import { Text, View } from "react-native";
 
-export const ScreenGreeting = () => {
+interface ScreenGreetingProps {
+  title?: string;
+}
+
+export const ScreenGreeting = ({ title }: ScreenGreetingProps) => {
   const { profile } = useAuthContext();
 
   const greeting = profile?.user_name
@@ -14,6 +18,7 @@ export const ScreenGreeting = () => {
   return (
     <View>
       <Text className="text-sm text-muted-foreground">{greeting}</Text>
+      <Text className="text-2xl font-pet-bold text-foreground">{title}</Text>
     </View>
   );
 };
