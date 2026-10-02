@@ -1,4 +1,4 @@
-import it from "./it.json";
+import it from "./it-IT.json";
 
 export const labels = it;
 

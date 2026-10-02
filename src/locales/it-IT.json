@@ -121,6 +121,49 @@
       "signup": "Registrati"
     }
   },
+  "onboarding": {
+    "navigation": {
+      "welcome": "Benvenuto",
+      "organization": "Associazione",
+      "volunteer": "Volontario"
+    },
+    "roleSelection": {
+      "title": "Chi sei?",
+      "description": "Scegli il profilo più adatto a te. Potrai contattarci in seguito per cambiarlo.",
+      "citizen": {
+        "title": "Cittadino",
+        "description": "Segnalo animali dispersi o abbandonati."
+      },
+      "volunteer": {
+        "title": "Volontario",
+        "description": "Aiuto a recuperare e assistere gli animali."
+      },
+      "organization": {
+        "title": "Associazione / Organizzazione",
+        "description": "Gestisco segnalazioni e coordino i recuperi."
+      }
+    },
+    "organization": {
+      "title": "La tua associazione",
+      "description": "Verificheremo questi dati a breve. Puoi comunque iniziare a usare l'app da subito.",
+      "placeholders": {
+        "name": "Nome associazione",
+        "taxCode": "Codice fiscale o Partita IVA"
+      },
+      "errors": {
+        "submitFailed": "Invio non riuscito. Riprova."
+      },
+      "cta": {
+        "submit": "Continua",
+        "submitting": "Invio in corso..."
+      }
+    },
+    "volunteer": {
+      "title": "A quale associazione appartieni?",
+      "description": "Non la trovi? Potrai registrarti come volontario indipendente in futuro.",
+      "empty": "Nessuna associazione ancora registrata."
+    }
+  },
   "authErrors": {
     "emailAlreadyExists": "Esiste già un account con questa email.",
     "emailAddressInvalid": "Questo indirizzo email non è supportato.",
@@ -139,6 +182,8 @@
     "passwordTooShort": "Password must be at least 8 characters long",
     "passwordConfirmationNotCorrect": "Password confirmation is not correct",
     "passwordsDoNotMatch": "Passwords do not match",
-    "reportDescriptionTooShort": "Aggiungi qualche dettaglio in più (almeno 10 caratteri)."
+    "reportDescriptionTooShort": "Aggiungi qualche dettaglio in più (almeno 10 caratteri).",
+    "organizationNameRequired": "Inserisci il nome dell'associazione.",
+    "organizationTaxCodeInvalid": "Inserisci un codice fiscale o una partita IVA validi."
   }
 }
