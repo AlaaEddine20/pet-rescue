@@ -6,8 +6,10 @@ export type AuthContextType = {
   user: User | null;
   session: Session | null;
   profile: Profile | null;
-  isAuthBootstrapping: boolean;
+  profileQueryError: Error | null;
+  isBootstrapping: boolean;
   isLoggedIn: boolean;
+  refreshProfile: () => void;
 
   signUp: (data: SignUpUser) => Promise<{
     error: AuthError | null;

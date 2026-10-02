@@ -15,7 +15,7 @@ import {
 export function AuthProvider({ children }: PropsWithChildren) {
   const queryClient = useQueryClient();
   const [session, setSession] = useState<Session | null>(null);
-  const [isAuthLoading, setIsAuthLoading] = useState(true);
+  const [isAuthBootstrapping, setIsAuthBootstrapping] = useState(true);
 
   const user = session?.user ?? null;
   const userId = user?.id;
@@ -33,8 +33,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     retry: 1,
   });
 
-  const profileError = profileQueryError?.message ?? null;
-  const isAuthBootstrapping = isAuthLoading || isProfileLoading;
+  const isBootstrapping = isAuthBootstrapping || (!!userId && isProfileLoading);
 
   useEffect(() => {
     const {
@@ -43,7 +42,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       setSession(nextSession);
 
       if (event === "SIGNED_OUT") queryClient.clear();
-      if (event === "INITIAL_SESSION") setIsAuthLoading(false);
+      if (event === "INITIAL_SESSION") setIsAuthBootstrapping(false);
     });
     return () => subscription.unsubscribe();
   }, [queryClient]);
@@ -84,9 +83,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
       user,
       session,
       profile,
-      profileError,
-      isAuthBootstrapping,
-      isLoading: isAuthBootstrapping,
+      profileQueryError,
+      isBootstrapping,
       isLoggedIn,
       signIn,
       signUp,
@@ -97,8 +95,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
       user,
       session,
       profile,
-      profileError,
-      isAuthBootstrapping,
+      profileQueryError,
+      isBootstrapping,
       isLoggedIn,
       signIn,
       signUp,
