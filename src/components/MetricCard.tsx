@@ -1,5 +1,4 @@
-import { View } from "lucide-react-native";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 
 type MetricCardProps = {
   label: string;
