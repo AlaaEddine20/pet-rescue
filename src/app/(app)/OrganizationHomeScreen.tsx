@@ -35,9 +35,6 @@ export default function OrganizationScreen() {
     [reports],
   );
 
-  console.log(pendingCount);
-  console.log(inProgressCount);
-
   const handleClaim = (reportId: string) => {
     claim(reportId, {
       onError: (error) => Alert.alert("Non riuscito", error.message),
