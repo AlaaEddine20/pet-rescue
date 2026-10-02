@@ -1,4 +1,5 @@
 import { useAuthContext } from "@/hooks/useAuthContext";
+import type { OrganizationOnboardingValues } from "@/lib/validators";
 import {
   completeCitizenOnboarding,
   completeOrganizationOnboarding,
@@ -10,23 +11,28 @@ export const useCompleteOnboarding = () => {
   const queryClient = useQueryClient();
   const { user } = useAuthContext();
 
+  const userId = user!.id;
+
   const invalidateProfile = () =>
-    queryClient.invalidateQueries({ queryKey: ["profile", user?.id] });
+    queryClient.invalidateQueries({
+      queryKey: ["profile", userId],
+      exact: true,
+    });
 
   const citizenMutation = useMutation({
-    mutationFn: () => completeCitizenOnboarding(user!.id),
+    mutationFn: () => completeCitizenOnboarding(userId),
     onSuccess: invalidateProfile,
   });
 
   const organizationMutation = useMutation({
-    mutationFn: (input: { name: string; taxCode: string }) =>
-      completeOrganizationOnboarding(user!.id, input),
+    mutationFn: (input: OrganizationOnboardingValues) =>
+      completeOrganizationOnboarding(userId, input),
     onSuccess: invalidateProfile,
   });
 
   const volunteerMutation = useMutation({
-    mutationFn: (organizationId: string) =>
-      completeVolunteerOnboarding(user!.id, organizationId),
+    mutationFn: (organizationId: string | null) =>
+      completeVolunteerOnboarding(userId, organizationId),
     onSuccess: invalidateProfile,
   });
 

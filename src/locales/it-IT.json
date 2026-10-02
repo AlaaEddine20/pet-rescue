@@ -122,6 +122,9 @@
     }
   },
   "onboarding": {
+    "errors": {
+      "profileUpdateFailed": "Impossibile completare la registrazione. Riprova."
+    },
     "navigation": {
       "welcome": "Benvenuto",
       "organization": "Associazione",
@@ -151,7 +154,15 @@
         "taxCode": "Codice fiscale o Partita IVA"
       },
       "errors": {
-        "submitFailed": "Invio non riuscito. Riprova."
+        "submitFailed": "Invio non riuscito. Riprova.",
+        "verifyRequired": "Verifica il codice fiscale prima di continuare.",
+        "runtsNotFound": "Nessuna organizzazione trovata nel RUNTS con questo codice fiscale.",
+        "runtsLookupFailed": "Verifica RUNTS non riuscita. Riprova."
+      },
+      "runts": {
+        "verify": "Verifica nel RUNTS",
+        "verifying": "Verifica in corso...",
+        "verified": "Organizzazione trovata nel RUNTS:"
       },
       "cta": {
         "submit": "Continua",
@@ -160,8 +171,18 @@
     },
     "volunteer": {
       "title": "A quale associazione appartieni?",
-      "description": "Non la trovi? Potrai registrarti come volontario indipendente in futuro.",
-      "empty": "Nessuna associazione ancora registrata."
+      "description": "Scegli un'associazione verificata o continua come volontario indipendente.",
+      "independent": "Volontario indipendente",
+      "empty": "Nessuna associazione verificata disponibile.",
+      "cta": {
+        "submit": "Continua",
+        "submitting": "Salvataggio in corso..."
+      },
+      "errors": {
+        "loadFailed": "Impossibile caricare le associazioni. Puoi continuare come volontario indipendente.",
+        "submitFailed": "Registrazione non riuscita. Riprova.",
+        "organizationIneligible": "Questa associazione non è disponibile per i volontari. Scegline un'altra."
+      }
     }
   },
   "authErrors": {

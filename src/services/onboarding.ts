@@ -1,40 +1,73 @@
 import { supabase } from "@/lib/supabase";
+import type { OrganizationOnboardingValues } from "@/lib/validators";
+import { OrganizationOnboardingSchema } from "@/lib/validators";
+import { labels } from "@/locales";
+import type { UserRole } from "@/types/AuthType";
+
+const updateOnboardingProfile = async (
+  userId: string,
+  updates: { role: UserRole; organization_id?: string | null },
+) => {
+  const { data, error } = await supabase
+    .from("users")
+    .update(updates)
+    .eq("id", userId)
+    .select("id")
+    .maybeSingle();
+
+  if (error) throw error;
+  if (!data) throw new Error(labels.onboarding.errors.profileUpdateFailed);
+};
 
 export const completeCitizenOnboarding = async (userId: string) => {
-  const { error } = await supabase
-    .from("users")
-    .update({ role: "citizen" })
-    .eq("id", userId);
-  if (error) throw error;
+  await updateOnboardingProfile(userId, { role: "citizen" });
 };
 
 export const completeOrganizationOnboarding = async (
   userId: string,
-  input: { name: string; taxCode: string },
+  input: OrganizationOnboardingValues,
 ) => {
+  const { name, taxCode } = OrganizationOnboardingSchema.parse(input);
   const { data: org, error: orgError } = await supabase
     .from("organizations")
-    .insert({ name: input.name, tax_code: input.taxCode, created_by: userId })
+    .insert({
+      name,
+      tax_code: taxCode,
+      created_by: userId,
+      verification_status: "pending",
+    })
     .select("id")
     .single();
   if (orgError) throw orgError;
 
-  const { error: userError } = await supabase
-    .from("users")
-    .update({ role: "organization", organization_id: org.id })
-    .eq("id", userId);
-  if (userError) throw userError;
+  await updateOnboardingProfile(userId, {
+    role: "organization",
+    organization_id: org.id,
+  });
 };
 
 export const completeVolunteerOnboarding = async (
   userId: string,
-  organizationId: string,
+  organizationId: string | null,
 ) => {
-  const { error } = await supabase
-    .from("users")
-    .update({ role: "volunteer", organization_id: organizationId })
-    .eq("id", userId);
-  if (error) throw error;
+  if (organizationId !== null) {
+    const { data, error } = await supabase
+      .from("organizations")
+      .select("id")
+      .eq("id", organizationId)
+      .eq("verification_status", "verified")
+      .maybeSingle();
+    if (error) throw error;
+    if (!data)
+      throw new Error(
+        labels.onboarding.volunteer.errors.organizationIneligible,
+      );
+  }
+
+  await updateOnboardingProfile(userId, {
+    role: "volunteer",
+    organization_id: organizationId,
+  });
 };
 
 export const getOrganizations = async (): Promise<
@@ -43,6 +76,7 @@ export const getOrganizations = async (): Promise<
   const { data, error } = await supabase
     .from("organizations")
     .select("id, name")
+    .eq("verification_status", "verified")
     .order("name");
   if (error) throw error;
   return data;

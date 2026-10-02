@@ -31,7 +31,9 @@ const SignUpForm = () => {
   const onSubmit = async (formData: SignUpUser) => {
     clearErrors("root");
     const { error } = await signUp(formData);
-    if (error) applyAuthError(error, setError);
+    if (error) {
+      applyAuthError(error, setError);
+    }
   };
 
   return (

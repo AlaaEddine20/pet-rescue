@@ -5,6 +5,7 @@ type RoleCardProps = {
   title: string;
   description: string;
   onPress: () => void;
+  disabled?: boolean;
 };
 
 export const RoleCard = ({
@@ -12,9 +13,11 @@ export const RoleCard = ({
   title,
   description,
   onPress,
+  disabled = false,
 }: RoleCardProps) => (
   <Pressable
     onPress={onPress}
+    disabled={disabled}
     accessibilityRole="button"
     accessibilityLabel={title}
     className="flex-row items-center gap-3 rounded-xl bg-secondary p-4"
