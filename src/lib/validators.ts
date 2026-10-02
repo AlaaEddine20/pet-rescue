@@ -35,14 +35,14 @@ const CODICE_FISCALE_REGEX = /^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$/;
 const PARTITA_IVA_REGEX = /^\d{11}$/;
 
 export const OrganizationOnboardingSchema = z.object({
-  name: z.string().min(2, { message: "Inserisci il nome dell'associazione." }),
+  name: z.string().min(2, { message: labels.validation.organizationNameRequired }),
   taxCode: z
     .string()
     .toUpperCase()
     .refine(
       (value) =>
         CODICE_FISCALE_REGEX.test(value) || PARTITA_IVA_REGEX.test(value),
-      { message: "Inserisci un codice fiscale o una partita IVA validi." },
+      { message: labels.validation.organizationTaxCodeInvalid },
     ),
 });
 export type OrganizationOnboardingValues = z.infer<
