@@ -7,6 +7,14 @@ const AppLayout = () => {
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="CitizenHomeScreen" options={{ headerShown: false }} />
       <Stack.Screen
+        name="OrganizationHomeScreen"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="VolunteerHomeScreen"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="report/new"
         options={{
           presentation: "modal",
