@@ -9,6 +9,7 @@ export type Profile = {
   user_name: string;
   role: UserRole | null;
   avatar_url: string | null;
+  organization_id: string | null;
 };
 
 export type AuthMode = "signin" | "signup";
