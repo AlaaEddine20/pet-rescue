@@ -12,9 +12,11 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import "../globals.css";
 
 function RootNavigator() {
-  const { isLoggedIn, isLoading } = useAuthContext();
+  const { isLoggedIn, profile, isAuthBootstrapping } = useAuthContext();
 
-  if (isLoading)
+  const needsOnboarding = isLoggedIn && profile?.role == null;
+
+  if (isAuthBootstrapping)
     return (
       <ScreenContainer className="h-full w-full justify-center items-center">
         <ActivityIndicator size={"large"} />
@@ -23,11 +25,14 @@ function RootNavigator() {
 
   return (
     <Stack>
-      <Stack.Protected guard={isLoggedIn}>
+      <Stack.Protected guard={isLoggedIn && !needsOnboarding}>
         <Stack.Screen name="(app)" options={{ headerShown: false }} />
       </Stack.Protected>
       <Stack.Protected guard={!isLoggedIn}>
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      </Stack.Protected>
+      <Stack.Protected guard={needsOnboarding}>
+        <Stack.Screen name="onboarding" options={{ headerShown: false }} />
       </Stack.Protected>
     </Stack>
   );
