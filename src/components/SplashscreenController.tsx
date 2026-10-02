@@ -6,13 +6,13 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 SplashScreen.preventAutoHideAsync();
 
 export function SplashScreenController() {
-  const { isAuthBootstrapping } = useAuthContext();
+  const { isBootstrapping } = useAuthContext();
 
   useEffect(() => {
-    if (!isAuthBootstrapping) {
+    if (!isBootstrapping) {
       SplashScreen.hideAsync();
     }
-  }, [isAuthBootstrapping]);
+  }, [isBootstrapping]);
 
   return null;
 }

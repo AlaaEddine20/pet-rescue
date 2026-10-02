@@ -1,4 +1,4 @@
-import z from "zod";
+import { z } from "zod";
 
 export type NewReport = {
   animalType: AnimalType;
@@ -22,15 +22,4 @@ export type Report = {
   createdAt: string;
   status: ReportStatus;
   addressLabel: string | null;
-};
-
-export const UserRoleSchema = z.enum(["citizen", "organization", "volunteer"]);
-export type UserRole = z.infer<typeof UserRoleSchema>;
-
-export type Profile = {
-  id: string;
-  user_name: string;
-  role: UserRole | null; // null = onboarding non completato
-  avatar_url: string | null;
-  organization_id: string | null;
 };
